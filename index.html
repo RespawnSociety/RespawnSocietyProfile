@@ -1,0 +1,1305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta name="color-scheme" content="dark" />
+    <title>Respawn Society</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      :root {
+        --bg0: #070a12;
+        --bg1: #0b1020;
+        --card: #0f1730cc;
+        --card2: #0f1730a8;
+        --line: #ffffff14;
+        --text: #e9eeff;
+        --muted: #b8c2ffb8;
+        --muted2: #b8c2ff80;
+
+        --a: #7c5cff;
+        --b: #2de2e6;
+        --c: #ff4fd8;
+
+        --ok: #35f2a5;
+        --warn: #ffcc66;
+
+        --shadow: 0 22px 90px rgba(0, 0, 0, 0.55);
+        --radius: 18px;
+        --radius2: 26px;
+        --max: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family:
+          "Space Grotesk",
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Arial,
+          sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(
+            1200px 800px at 20% 10%,
+            rgba(124, 92, 255, 0.18),
+            transparent 55%
+          ),
+          radial-gradient(
+            900px 700px at 85% 20%,
+            rgba(45, 226, 230, 0.14),
+            transparent 55%
+          ),
+          radial-gradient(
+            900px 700px at 55% 88%,
+            rgba(255, 79, 216, 0.1),
+            transparent 55%
+          ),
+          linear-gradient(180deg, var(--bg0), var(--bg1) 42%, #070a12 100%);
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font-family: inherit;
+      }
+
+      ::selection {
+        background: rgba(124, 92, 255, 0.35);
+        color: var(--text);
+      }
+
+      .container {
+        width: 100%;
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .bg-grid {
+        position: fixed;
+        inset: -2px;
+        z-index: -2;
+        pointer-events: none;
+        background:
+          linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.04) 1px,
+            transparent 1px
+          );
+        background-size: 70px 70px;
+        opacity: 0.18;
+        mask-image: radial-gradient(
+          circle at 50% 30%,
+          black 0,
+          black 45%,
+          transparent 75%
+        );
+      }
+
+      .glow {
+        position: fixed;
+        inset: 0;
+        z-index: -3;
+        pointer-events: none;
+        background:
+          radial-gradient(
+            900px 600px at 20% 15%,
+            rgba(124, 92, 255, 0.18),
+            transparent 60%
+          ),
+          radial-gradient(
+            800px 550px at 85% 25%,
+            rgba(45, 226, 230, 0.14),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 650px at 55% 90%,
+            rgba(255, 79, 216, 0.12),
+            transparent 60%
+          );
+        filter: blur(0px);
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(18px);
+        background: linear-gradient(
+          180deg,
+          rgba(7, 10, 18, 0.82),
+          rgba(7, 10, 18, 0.55)
+        );
+        border-bottom: 1px solid var(--line);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 220px;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background:
+          radial-gradient(
+            16px 16px at 30% 35%,
+            rgba(255, 255, 255, 0.85),
+            rgba(255, 255, 255, 0) 60%
+          ),
+          linear-gradient(
+            135deg,
+            rgba(124, 92, 255, 0.9),
+            rgba(45, 226, 230, 0.85) 55%,
+            rgba(255, 79, 216, 0.75)
+          );
+        box-shadow:
+          0 14px 40px rgba(124, 92, 255, 0.18),
+          0 10px 30px rgba(45, 226, 230, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+      }
+
+      .brand h1 {
+        font-size: 15px;
+        margin: 0;
+        line-height: 1.2;
+        letter-spacing: 0.2px;
+      }
+      .brand p {
+        margin: 0;
+        color: var(--muted2);
+        font-size: 12px;
+      }
+
+      .nav {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      .nav a {
+        font-size: 13px;
+        color: var(--muted);
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        transition: 0.2s ease;
+      }
+      .nav a:hover {
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: flex-end;
+        min-width: 220px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .lang-btn {
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        padding: 8px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: 0.2s ease;
+      }
+      .lang-btn:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.09);
+      }
+      .lang-btn[aria-pressed="true"] {
+        border-color: rgba(124, 92, 255, 0.55);
+        box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18);
+      }
+
+      .hero {
+        padding: 38px 0 18px;
+      }
+
+      .hero-wrap {
+        position: relative;
+        border-radius: var(--radius2);
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background:
+          radial-gradient(
+            1200px 600px at 30% 10%,
+            rgba(124, 92, 255, 0.22),
+            transparent 55%
+          ),
+          radial-gradient(
+            900px 550px at 85% 15%,
+            rgba(45, 226, 230, 0.18),
+            transparent 55%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.03)
+          );
+        box-shadow: var(--shadow);
+      }
+
+      .hero-inner {
+        padding: 26px;
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 18px;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--muted);
+        padding: 8px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        width: fit-content;
+      }
+
+      .kicker .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--a), var(--b));
+        box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18);
+      }
+
+      .hero h2 {
+        font-size: clamp(26px, 4vw, 44px);
+        margin: 12px 0 10px;
+        line-height: 1.06;
+        letter-spacing: -0.6px;
+      }
+
+      .hero p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 14.5px;
+        line-height: 1.6;
+        max-width: 62ch;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        cursor: pointer;
+        transition: 0.2s ease;
+        user-select: none;
+        font-weight: 600;
+        font-size: 13.5px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          rgba(124, 92, 255, 0.9),
+          rgba(45, 226, 230, 0.75) 60%,
+          rgba(255, 79, 216, 0.55)
+        );
+        border-color: rgba(255, 255, 255, 0.22);
+        box-shadow: 0 16px 40px rgba(124, 92, 255, 0.18);
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-ghost {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .btn-ghost:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.09);
+      }
+
+      .hero-side {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .stat {
+        background: rgba(15, 23, 48, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 18px;
+        padding: 14px;
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
+      }
+
+      .stat .label {
+        color: var(--muted2);
+        font-size: 12px;
+        margin: 0 0 6px;
+      }
+      .stat .value {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+      }
+      .stat .hint {
+        color: var(--muted);
+        font-size: 12.5px;
+        margin: 8px 0 0;
+        line-height: 1.35;
+      }
+
+      .section {
+        padding: 18px 0;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .section h3 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: -0.2px;
+      }
+      .section .sub {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13.5px;
+        line-height: 1.55;
+      }
+
+      .grid {
+        display: grid;
+        gap: 12px;
+      }
+      .grid.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .grid.three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .card {
+        background: rgba(15, 23, 48, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: 0 20px 70px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        background:
+          radial-gradient(
+            600px 300px at 25% 0%,
+            rgba(124, 92, 255, 0.14),
+            transparent 55%
+          ),
+          radial-gradient(
+            500px 300px at 90% 10%,
+            rgba(45, 226, 230, 0.1),
+            transparent 55%
+          );
+        opacity: 0.9;
+        pointer-events: none;
+      }
+
+      .card > * {
+        position: relative;
+      }
+
+      .card-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--muted);
+      }
+
+      .card h4 {
+        margin: 0;
+        font-size: 16px;
+        letter-spacing: -0.2px;
+      }
+      .card p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 13.5px;
+      }
+
+      .list {
+        margin: 10px 0 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 13.5px;
+      }
+      .list li {
+        margin: 6px 0;
+      }
+
+      .product {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .thumb {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        overflow: hidden;
+        background:
+          radial-gradient(
+            18px 18px at 25% 30%,
+            rgba(255, 255, 255, 0.65),
+            rgba(255, 255, 255, 0) 62%
+          ),
+          linear-gradient(
+            135deg,
+            rgba(124, 92, 255, 0.75),
+            rgba(45, 226, 230, 0.55) 60%,
+            rgba(255, 79, 216, 0.45)
+          );
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+      }
+
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .kv {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .kv span {
+        font-size: 12px;
+        color: var(--muted);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 7px 10px;
+        border-radius: 999px;
+      }
+
+      .team {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        overflow: hidden;
+        background:
+          radial-gradient(
+            16px 16px at 35% 35%,
+            rgba(255, 255, 255, 0.85),
+            rgba(255, 255, 255, 0) 60%
+          ),
+          linear-gradient(
+            135deg,
+            rgba(124, 92, 255, 0.65),
+            rgba(45, 226, 230, 0.5) 60%,
+            rgba(255, 79, 216, 0.4)
+          );
+        flex: 0 0 auto;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+      }
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .team h4 {
+        margin: 2px 0 2px;
+      }
+      .role {
+        margin: 0 0 8px;
+        color: var(--muted2);
+        font-size: 12.5px;
+      }
+      .meta {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13.5px;
+        line-height: 1.6;
+      }
+
+      .footer {
+        padding: 26px 0 38px;
+        color: var(--muted2);
+        font-size: 13px;
+        border-top: 1px solid var(--line);
+        margin-top: 18px;
+      }
+
+      .small {
+        font-size: 12px;
+        color: var(--muted2);
+      }
+
+      .hr {
+        height: 1px;
+        background: var(--line);
+        margin: 12px 0;
+      }
+
+      @media (max-width: 980px) {
+        .hero-inner {
+          grid-template-columns: 1fr;
+        }
+        .brand {
+          min-width: auto;
+        }
+        .actions {
+          min-width: auto;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .nav {
+          display: none;
+        }
+        .grid.two {
+          grid-template-columns: 1fr;
+        }
+        .grid.three {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding-top: 26px;
+        }
+        .btn {
+          width: 100%;
+        }
+        .cta-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="./script.js" defer></script>
+    <script>
+      (() => {
+        "use strict";
+
+        const $ = (sel, root = document) => root.querySelector(sel);
+
+        // =========================
+        // CONTENT (ID + EN)
+        // =========================
+        const CONTENT = {
+          id: {
+            brandTagline: "Building Technology to Help People Grow",
+            nav: [
+              { id: "about", label: "Tentang" },
+              { id: "vmg", label: "Visi & Misi" },
+              { id: "products", label: "Produk" },
+              { id: "team", label: "Tim" },
+              { id: "contact", label: "Kontak" },
+            ],
+            hero: {
+              kicker: "Respawn Society • Company Profile",
+              title:
+                "Teknologi futuristik yang membantu UMKM & individu berkembang.",
+              desc: "Kami adalah tim kecil yang membangun produk teknologi yang praktis, rapi, dan mudah dipakai. Fokus kami: membantu UMKM (contoh: aplikasi kasir) dan membantu individu mengelola keuangan (contoh: aplikasi Uang Kita) agar hidup lebih terarah.",
+              ctaPrimary: { label: "Lihat Produk", href: "#products" },
+              ctaGhost: { label: "Kenalan dengan Tim", href: "#team" },
+              stats: [
+                {
+                  label: "Fokus",
+                  value: "Tech for People",
+                  hint: "Produk yang berguna, bukan sekadar fitur.",
+                },
+                {
+                  label: "Kekuatan",
+                  value: "Simple & Scalable",
+                  hint: "Desain bersih, performa cepat, siap berkembang.",
+                },
+                {
+                  label: "Target",
+                  value: "UMKM & Personal Finance",
+                  hint: "Bisnis kecil, usaha menengah, dan kebiasaan hemat.",
+                },
+              ],
+            },
+            about: {
+              title: "Tentang Respawn Society",
+              sub: "Kami membangun solusi digital yang membantu banyak orang. Dari sistem kasir untuk UMKM sampai aplikasi budgeting untuk belajar hemat.",
+              cards: [
+                {
+                  title: "Apa yang kami kerjakan",
+                  badge: "Scope",
+                  body: "Aplikasi web & mobile yang fokus pada kebutuhan nyata: transaksi, laporan, pencatatan, dan pengelolaan keuangan sederhana.",
+                },
+                {
+                  title: "Cara kami membantu",
+                  badge: "Impact",
+                  body: "Kami membantu pengguna memahami teknologi lewat produk yang mudah dipakai, dokumentasi yang jelas, dan iterasi yang cepat.",
+                },
+              ],
+            },
+            vmg: {
+              title: "Visi, Misi & Tujuan",
+              sub: "Arah jangka panjang Respawn Society.",
+              vision: {
+                title: "Visi",
+                badge: "Vision",
+                body: "Menjadi perusahaan besar di bidang teknologi di masa depan yang berdampak positif dan membantu masyarakat melalui solusi digital.",
+              },
+              mission: {
+                title: "Misi",
+                badge: "Mission",
+                list: [
+                  "Membuat aplikasi yang bermanfaat, sederhana, dan mudah digunakan.",
+                  "Mendukung UMKM dan usaha menengah dengan teknologi yang tepat guna.",
+                  "Meningkatkan literasi teknologi dan produktivitas pengguna melalui edukasi dan pengalaman produk yang baik.",
+                ],
+              },
+              goals: {
+                title: "Tujuan",
+                badge: "Goals",
+                body: "Menciptakan produk yang membuat orang lebih efisien, lebih paham teknologi, dan lebih bijak mengatur keuangan.",
+              },
+            },
+            products: {
+              title: "Produk & Aplikasi",
+              sub: "Beberapa produk yang kami kembangkan dan dampaknya.",
+              items: [
+                {
+                  name: "Mesin Kasir UMKM",
+                  tag: "Point of Sale",
+                  image: "assets/app-kasir.png",
+                  desc: "Aplikasi kasir sederhana untuk membantu UMKM dan usaha menengah mengelola transaksi, catatan penjualan, dan ringkasan laporan dengan lebih rapi.",
+                  bullets: [
+                    "Pencatatan transaksi cepat",
+                    "Ringkasan penjualan",
+                    "Membantu operasional harian UMKM",
+                  ],
+                  chips: ["Cepat", "Rapi", "User-friendly"],
+                },
+                {
+                  name: "Uang Kita",
+                  tag: "Personal Finance",
+                  image: "assets/app-uangkita.png",
+                  desc: "Aplikasi pencatatan keuangan yang membantu pengguna belajar hemat: mencatat pemasukan/pengeluaran, melihat pola belanja, dan membuat kebiasaan finansial yang lebih sehat.",
+                  bullets: [
+                    "Catat harian",
+                    "Analisis sederhana",
+                    "Bantu konsisten hemat",
+                  ],
+                  chips: ["Budgeting", "Habit", "Insight"],
+                },
+              ],
+              note: "Catatan: gambar produk bisa kamu taruh di folder assets/ dengan nama file yang sama. Kalau belum ada, website tetap tampil dengan background gradient.",
+            },
+            team: {
+              title: "Tim",
+              sub: "Tim kecil dengan fokus besar: membangun produk yang benar-benar berguna.",
+              members: [
+                {
+                  name: "Sungaibudi",
+                  role: "Backend Developer",
+                  image: "assets/team/backend.png",
+                  desc: "Fokus di arsitektur, API, database, dan performa. Membuat sistem yang stabil, aman, dan scalable untuk kebutuhan produk.",
+                  chips: ["API", "Database", "Performance"],
+                },
+                {
+                  name: "Nama Frontend",
+                  role: "Frontend Developer",
+                  image: "assets/team/frontend.png",
+                  desc: "Membangun UI modern yang cepat dan responsive. Fokus pada pengalaman pengguna yang nyaman di desktop maupun Android.",
+                  chips: ["UI", "Responsive", "DX"],
+                },
+                {
+                  name: "Nama UI/UX",
+                  role: "UI/UX Designer",
+                  image: "assets/team/uiux.png",
+                  desc: "Merancang alur dan tampilan produk yang sederhana, futuristik, dan mudah dipahami pengguna. Fokus pada clarity & usability.",
+                  chips: ["UX Flow", "Design System", "Usability"],
+                },
+              ],
+            },
+            contact: {
+              title: "Kontak",
+              sub: "Ingin kolaborasi atau butuh bantuan teknologi untuk UMKM? Hubungi kami.",
+              ctas: [
+                { label: "Email", value: "respawnsociety@yourmail.com" },
+                { label: "GitHub", value: "github.com/your-username" },
+                { label: "Instagram", value: "instagram.com/your-handle" },
+              ],
+              footer:
+                "© " +
+                new Date().getFullYear() +
+                " Respawn Society. Built with HTML • CSS • JS (GitHub Pages Ready).",
+            },
+            ui: {
+              langLabel: "Bahasa",
+              langID: "ID",
+              langEN: "EN",
+              copyHint: "Tip: tekan tombol bahasa untuk ganti konten.",
+            },
+          },
+
+          en: {
+            brandTagline: "Building Technology to Help People Grow",
+            nav: [
+              { id: "about", label: "About" },
+              { id: "vmg", label: "Vision & Mission" },
+              { id: "products", label: "Products" },
+              { id: "team", label: "Team" },
+              { id: "contact", label: "Contact" },
+            ],
+            hero: {
+              kicker: "Respawn Society • Company Profile",
+              title:
+                "Futuristic technology that helps SMEs and individuals grow.",
+              desc: "We’re a small tech team building practical, clean, and easy-to-use products. Our focus: helping SMEs (e.g., POS cashier app) and improving personal finance habits (e.g., Uang Kita) so people can be more organized and intentional.",
+              ctaPrimary: { label: "View Products", href: "#products" },
+              ctaGhost: { label: "Meet the Team", href: "#team" },
+              stats: [
+                {
+                  label: "Focus",
+                  value: "Tech for People",
+                  hint: "Useful products — not just features.",
+                },
+                {
+                  label: "Strength",
+                  value: "Simple & Scalable",
+                  hint: "Clean design, fast performance, built to grow.",
+                },
+                {
+                  label: "Target",
+                  value: "SMEs & Personal Finance",
+                  hint: "Small businesses and better saving habits.",
+                },
+              ],
+            },
+            about: {
+              title: "About Respawn Society",
+              sub: "We build digital solutions that help people. From POS systems for SMEs to budgeting apps for better saving habits.",
+              cards: [
+                {
+                  title: "What we build",
+                  badge: "Scope",
+                  body: "Web & mobile applications focused on real needs: transactions, reports, bookkeeping, and simple personal finance management.",
+                },
+                {
+                  title: "How we help",
+                  badge: "Impact",
+                  body: "We help users understand technology through easy UX, clear documentation, and fast iteration.",
+                },
+              ],
+            },
+            vmg: {
+              title: "Vision, Mission & Goals",
+              sub: "The long-term direction of Respawn Society.",
+              vision: {
+                title: "Vision",
+                badge: "Vision",
+                body: "To become a major technology company in the future that creates positive impact and helps society through digital solutions.",
+              },
+              mission: {
+                title: "Mission",
+                badge: "Mission",
+                list: [
+                  "Build helpful, simple, and easy-to-use applications.",
+                  "Support SMEs with practical technology.",
+                  "Improve tech literacy and user productivity through education and great product experience.",
+                ],
+              },
+              goals: {
+                title: "Goals",
+                badge: "Goals",
+                body: "Create products that make people more efficient, more tech-confident, and wiser in managing money.",
+              },
+            },
+            products: {
+              title: "Products & Apps",
+              sub: "A few products we build and the impact they deliver.",
+              items: [
+                {
+                  name: "SME POS Cashier",
+                  tag: "Point of Sale",
+                  image: "assets/app-kasir.png",
+                  desc: "A simple POS cashier app to help SMEs manage transactions, sales records, and summary reports in a cleaner way.",
+                  bullets: [
+                    "Fast checkout flow",
+                    "Sales summaries",
+                    "Supports daily operations",
+                  ],
+                  chips: ["Fast", "Clean", "User-friendly"],
+                },
+                {
+                  name: "Uang Kita",
+                  tag: "Personal Finance",
+                  image: "assets/app-uangkita.png",
+                  desc: "A personal finance tracking app that helps users build saving habits: track income/expenses, spot spending patterns, and stay consistent.",
+                  bullets: [
+                    "Daily tracking",
+                    "Simple insights",
+                    "Helps build saving consistency",
+                  ],
+                  chips: ["Budgeting", "Habit", "Insights"],
+                },
+              ],
+              note: "Note: Place your product images inside assets/ using the same filenames. If images are missing, the UI will still look good with gradient placeholders.",
+            },
+            team: {
+              title: "Team",
+              sub: "Small team, big focus: building products that truly matter.",
+              members: [
+                {
+                  name: "Sungaibudi",
+                  role: "Backend Developer",
+                  image: "assets/team/backend.png",
+                  desc: "Focused on architecture, APIs, databases, and performance. Builds stable, secure, and scalable systems.",
+                  chips: ["API", "Database", "Performance"],
+                },
+                {
+                  name: "Frontend Name",
+                  role: "Frontend Developer",
+                  image: "assets/team/frontend.png",
+                  desc: "Builds modern, fast, responsive UI. Focused on user comfort across desktop and Android devices.",
+                  chips: ["UI", "Responsive", "DX"],
+                },
+                {
+                  name: "UI/UX Name",
+                  role: "UI/UX Designer",
+                  image: "assets/team/uiux.png",
+                  desc: "Designs clean, futuristic, easy-to-understand flows. Focus on clarity & usability.",
+                  chips: ["UX Flow", "Design System", "Usability"],
+                },
+              ],
+            },
+            contact: {
+              title: "Contact",
+              sub: "Want to collaborate or need tech help for your SME? Reach out.",
+              ctas: [
+                { label: "Email", value: "respawnsociety@yourmail.com" },
+                { label: "GitHub", value: "github.com/your-username" },
+                { label: "Instagram", value: "instagram.com/your-handle" },
+              ],
+              footer:
+                "© " +
+                new Date().getFullYear() +
+                " Respawn Society. Built with HTML • CSS • JS (GitHub Pages Ready).",
+            },
+            ui: {
+              langLabel: "Language",
+              langID: "ID",
+              langEN: "EN",
+              copyHint: "Tip: use the language buttons to switch content.",
+            },
+          },
+        };
+
+        // =========================
+        // HELPERS
+        // =========================
+        function escapeHtml(str) {
+          return String(str)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+        }
+
+        function createImg(src, alt) {
+          // onerror fallback to keep the layout clean
+          const safeAlt = escapeHtml(alt);
+          const safeSrc = escapeHtml(src);
+          return `<img src="${safeSrc}" alt="${safeAlt}" loading="lazy" decoding="async"
+      onerror="this.style.display='none';" />`;
+        }
+
+        function chips(list) {
+          if (!Array.isArray(list) || list.length === 0) return "";
+          return `<div class="kv">${list.map((x) => `<span>${escapeHtml(x)}</span>`).join("")}</div>`;
+        }
+
+        function sectionHead(title, sub) {
+          return `
+      <div class="section-head">
+        <div>
+          <h3>${escapeHtml(title)}</h3>
+          <p class="sub">${escapeHtml(sub)}</p>
+        </div>
+      </div>
+    `;
+        }
+
+        // =========================
+        // RENDER
+        // =========================
+        function render(lang) {
+          const c = CONTENT[lang] || CONTENT.id;
+
+          document.documentElement.lang = lang === "en" ? "en" : "id";
+          document.title = "Respawn Society";
+
+          const navLinks = c.nav
+            .map(
+              (n) =>
+                `<a href="#${escapeHtml(n.id)}">${escapeHtml(n.label)}</a>`,
+            )
+            .join("");
+
+          const aboutCards = c.about.cards
+            .map(
+              (card) => `
+      <div class="card">
+        <div class="card-title">
+          <h4>${escapeHtml(card.title)}</h4>
+          <span class="badge">${escapeHtml(card.badge)}</span>
+        </div>
+        <p>${escapeHtml(card.body)}</p>
+      </div>
+    `,
+            )
+            .join("");
+
+          const missionList = c.vmg.mission.list
+            .map((li) => `<li>${escapeHtml(li)}</li>`)
+            .join("");
+
+          const productCards = c.products.items
+            .map(
+              (p) => `
+      <div class="card product">
+        <div class="thumb">
+          ${createImg(p.image, p.name)}
+        </div>
+        <div class="card-title">
+          <h4>${escapeHtml(p.name)}</h4>
+          <span class="badge">${escapeHtml(p.tag)}</span>
+        </div>
+        <p>${escapeHtml(p.desc)}</p>
+        <ul class="list">
+          ${p.bullets.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}
+        </ul>
+        ${chips(p.chips)}
+      </div>
+    `,
+            )
+            .join("");
+
+          const teamCards = c.team.members
+            .map(
+              (m) => `
+      <div class="card">
+        <div class="team">
+          <div class="avatar">
+            ${createImg(m.image, m.name)}
+          </div>
+          <div>
+            <h4>${escapeHtml(m.name)}</h4>
+            <p class="role">${escapeHtml(m.role)}</p>
+            <p class="meta">${escapeHtml(m.desc)}</p>
+            ${chips(m.chips)}
+          </div>
+        </div>
+      </div>
+    `,
+            )
+            .join("");
+
+          const contactItems = c.contact.ctas
+            .map(
+              (x) => `
+      <div class="card">
+        <div class="card-title">
+          <h4>${escapeHtml(x.label)}</h4>
+          <span class="badge">Info</span>
+        </div>
+        <p>${escapeHtml(x.value)}</p>
+      </div>
+    `,
+            )
+            .join("");
+
+          const app = $("#app");
+          app.innerHTML = `
+      <div class="glow"></div>
+      <div class="bg-grid"></div>
+
+      <header class="topbar">
+        <div class="container">
+          <div class="topbar-inner">
+            <a class="brand" href="#top" aria-label="Respawn Society Home">
+              <div class="logo" aria-hidden="true"></div>
+              <div>
+                <h1>Respawn Society</h1>
+                <p>${escapeHtml(c.brandTagline)}</p>
+              </div>
+            </a>
+
+            <nav class="nav" aria-label="Primary Navigation">
+              ${navLinks}
+            </nav>
+
+            <div class="actions">
+              <div class="pill" aria-label="Language Switcher">
+                <span class="small">${escapeHtml(c.ui.langLabel)}:</span>
+                <button class="lang-btn" id="btn-id" type="button" aria-pressed="${lang === "id"}">${escapeHtml(c.ui.langID)}</button>
+                <button class="lang-btn" id="btn-en" type="button" aria-pressed="${lang === "en"}">${escapeHtml(c.ui.langEN)}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="container">
+            <div class="hero-wrap">
+              <div class="hero-inner">
+                <div>
+                  <div class="kicker"><span class="dot" aria-hidden="true"></span> ${escapeHtml(c.hero.kicker)}</div>
+                  <h2>${escapeHtml(c.hero.title)}</h2>
+                  <p>${escapeHtml(c.hero.desc)}</p>
+
+                  <div class="cta-row">
+                    <a class="btn btn-primary" href="${escapeHtml(c.hero.ctaPrimary.href)}">${escapeHtml(c.hero.ctaPrimary.label)}</a>
+                    <a class="btn btn-ghost" href="${escapeHtml(c.hero.ctaGhost.href)}">${escapeHtml(c.hero.ctaGhost.label)}</a>
+                  </div>
+
+                  <div class="hr"></div>
+                  <p class="small">${escapeHtml(c.ui.copyHint)}</p>
+                </div>
+
+                <div class="hero-side">
+                  ${c.hero.stats
+                    .map(
+                      (s) => `
+                    <div class="stat">
+                      <p class="label">${escapeHtml(s.label)}</p>
+                      <p class="value">${escapeHtml(s.value)}</p>
+                      <p class="hint">${escapeHtml(s.hint)}</p>
+                    </div>
+                  `,
+                    )
+                    .join("")}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="about">
+          <div class="container">
+            ${sectionHead(c.about.title, c.about.sub)}
+            <div class="grid two">
+              ${aboutCards}
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="vmg">
+          <div class="container">
+            ${sectionHead(c.vmg.title, c.vmg.sub)}
+            <div class="grid three">
+              <div class="card">
+                <div class="card-title">
+                  <h4>${escapeHtml(c.vmg.vision.title)}</h4>
+                  <span class="badge">${escapeHtml(c.vmg.vision.badge)}</span>
+                </div>
+                <p>${escapeHtml(c.vmg.vision.body)}</p>
+              </div>
+
+              <div class="card">
+                <div class="card-title">
+                  <h4>${escapeHtml(c.vmg.mission.title)}</h4>
+                  <span class="badge">${escapeHtml(c.vmg.mission.badge)}</span>
+                </div>
+                <ul class="list">${missionList}</ul>
+              </div>
+
+              <div class="card">
+                <div class="card-title">
+                  <h4>${escapeHtml(c.vmg.goals.title)}</h4>
+                  <span class="badge">${escapeHtml(c.vmg.goals.badge)}</span>
+                </div>
+                <p>${escapeHtml(c.vmg.goals.body)}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="products">
+          <div class="container">
+            ${sectionHead(c.products.title, c.products.sub)}
+            <div class="grid two">
+              ${productCards}
+            </div>
+            <div class="hr"></div>
+            <p class="small">${escapeHtml(c.products.note)}</p>
+          </div>
+        </section>
+
+        <section class="section" id="team">
+          <div class="container">
+            ${sectionHead(c.team.title, c.team.sub)}
+            <div class="grid three">
+              ${teamCards}
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="contact">
+          <div class="container">
+            ${sectionHead(c.contact.title, c.contact.sub)}
+            <div class="grid three">
+              ${contactItems}
+            </div>
+            <div class="footer">
+              ${escapeHtml(c.contact.footer)}
+            </div>
+          </div>
+        </section>
+      </main>
+    `;
+
+          // wire buttons
+          const btnId = $("#btn-id");
+          const btnEn = $("#btn-en");
+
+          if (btnId) btnId.addEventListener("click", () => setLang("id"));
+          if (btnEn) btnEn.addEventListener("click", () => setLang("en"));
+        }
+
+        function setLang(lang) {
+          const normalized = lang === "en" ? "en" : "id";
+          // Keep state in URL hash for easy sharing: #en or #id
+          const current = window.location.hash
+            .replace("#", "")
+            .trim()
+            .toLowerCase();
+          const base = current.startsWith("en")
+            ? current.replace(/^en/, "")
+            : current.startsWith("id")
+              ? current.replace(/^id/, "")
+              : current;
+          const newHash = normalized + (base ? base : "");
+          window.location.hash = newHash || normalized;
+          render(normalized);
+        }
+
+        function getLangFromHash() {
+          const h = window.location.hash.replace("#", "").trim().toLowerCase();
+          if (h.startsWith("en")) return "en";
+          if (h.startsWith("id")) return "id";
+          return "id"; 
+        }
+
+        // Initial render
+        render(getLangFromHash());
+
+        // Re-render on hash change (e.g. user clicks nav anchors)
+        window.addEventListener("hashchange", () => {
+          const lang = getLangFromHash();
+          // Only rerender if language part changes
+          render(lang);
+        });
+      })();
+    </script>
+  </body>
+</html>
