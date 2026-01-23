@@ -10,8 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
     <link rel="stylesheet" href="./style.css" />
     <style>
       :root {
@@ -177,18 +176,7 @@
         width: 40px;
         height: 40px;
         border-radius: 14px;
-        background:
-          radial-gradient(
-            16px 16px at 30% 35%,
-            rgba(255, 255, 255, 0.85),
-            rgba(255, 255, 255, 0) 60%
-          ),
-          linear-gradient(
-            135deg,
-            rgba(124, 92, 255, 0.9),
-            rgba(45, 226, 230, 0.85) 55%,
-            rgba(255, 79, 216, 0.75)
-          );
+        background: url("img/logo.jpg") center / contain no-repeat;
         box-shadow:
           0 14px 40px rgba(124, 92, 255, 0.18),
           0 10px 30px rgba(45, 226, 230, 0.1);
@@ -1287,7 +1275,7 @@
           const h = window.location.hash.replace("#", "").trim().toLowerCase();
           if (h.startsWith("en")) return "en";
           if (h.startsWith("id")) return "id";
-          return "id"; 
+          return "id";
         }
 
         // Initial render
