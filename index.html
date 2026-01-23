@@ -442,8 +442,17 @@
         box-shadow: 0 20px 70px rgba(0, 0, 0, 0.25);
         overflow: hidden;
         position: relative;
+        transition:
+          transform 0.22s ease,
+          box-shadow 0.22s ease,
+          border-color 0.22s ease;
       }
 
+      .card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(255, 255, 255, 0.22);
+        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.38);
+      }
       .card::before {
         content: "";
         position: absolute;
@@ -547,7 +556,7 @@
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
-        margin-top: 8px;
+        margin-top: 10px;
       }
       .kv span {
         font-size: 12px;
@@ -556,19 +565,22 @@
         background: rgba(255, 255, 255, 0.05);
         padding: 7px 10px;
         border-radius: 999px;
+        opacity: 0.95;
+        padding: 6px 10px;
       }
 
       .team {
         display: flex;
-        gap: 12px;
+        gap: 14px;
         align-items: flex-start;
       }
 
       .avatar {
-        width: 56px;
-        height: 56px;
-        border-radius: 16px;
+        width: 62px;
+        height: 62px;
+        border-radius: 18px;
         border: 1px solid rgba(255, 255, 255, 0.16);
+        position: relative;
         overflow: hidden;
         background:
           radial-gradient(
@@ -585,27 +597,87 @@
         flex: 0 0 auto;
         box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
       }
+
+      .avatar::after {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 20px;
+        background: linear-gradient(
+          135deg,
+          rgba(124, 92, 255, 0.55),
+          rgba(45, 226, 230, 0.35),
+          rgba(255, 79, 216, 0.35)
+        );
+        filter: blur(10px);
+        opacity: 0.55;
+        z-index: 0;
+      }
+
       .avatar img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
+        position: relative;
+        z-index: 1;
       }
 
       .team h4 {
         margin: 2px 0 2px;
+        font-size: 16.5px;
+        letter-spacing: -0.2px;
       }
       .role {
-        margin: 0 0 8px;
-        color: var(--muted2);
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        width: fit-content;
+        margin-top: 2px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--muted);
         font-size: 12.5px;
       }
       .meta {
-        margin: 0;
-        color: var(--muted);
-        font-size: 13.5px;
-        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-top: 10px;
       }
+
+      /* ===== ADDED: TEAM LINKS ===== */
+      .profile-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .link-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        font-size: 12.5px;
+        font-weight: 600;
+        transition: 0.2s ease;
+      }
+
+      .link-pill:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(124, 92, 255, 0.55);
+        box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18);
+      }
+      /* ===== END ADDED ===== */
 
       .footer {
         padding: 26px 0 38px;
@@ -659,6 +731,47 @@
           align-items: stretch;
         }
       }
+
+      .link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 700;
+        transition: 0.2s ease;
+      }
+
+      .link-btn svg {
+        width: 16px;
+        height: 16px;
+        opacity: 0.9;
+      }
+
+      .link-btn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(124, 92, 255, 0.55);
+        background: linear-gradient(
+          135deg,
+          rgba(124, 92, 255, 0.45),
+          rgba(45, 226, 230, 0.22) 55%,
+          rgba(255, 79, 216, 0.18)
+        );
+        box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18);
+      }
+
+      .link-btn.gh:hover {
+        border-color: rgba(45, 226, 230, 0.55);
+        box-shadow: 0 0 0 4px rgba(45, 226, 230, 0.16);
+      }
+      .link-btn.li:hover {
+        border-color: rgba(255, 79, 216, 0.55);
+        box-shadow: 0 0 0 4px rgba(255, 79, 216, 0.16);
+      }
     </style>
   </head>
   <body>
@@ -670,9 +783,6 @@
 
         const $ = (sel, root = document) => root.querySelector(sel);
 
-        // =========================
-        // CONTENT (ID + EN)
-        // =========================
         const CONTENT = {
           id: {
             brandTagline: "Building Technology to Help People Grow",
@@ -783,11 +893,16 @@
               sub: "Tim kecil dengan fokus besar: membangun produk yang benar-benar berguna.",
               members: [
                 {
-                  name: "Sungaibudi",
+                  name: "Jesslyn",
                   role: "Backend Developer",
                   image: "assets/team/backend.png",
                   desc: "Fokus di arsitektur, API, database, dan performa. Membuat sistem yang stabil, aman, dan scalable untuk kebutuhan produk.",
                   chips: ["API", "Database", "Performance"],
+                  links: {
+                    github: "https://github.com/YOUR_GITHUB_BACKEND",
+                    linkedin:
+                      "https://www.linkedin.com/in/YOUR_LINKEDIN_BACKEND/",
+                  },
                 },
                 {
                   name: "Nama Frontend",
@@ -795,6 +910,11 @@
                   image: "assets/team/frontend.png",
                   desc: "Membangun UI modern yang cepat dan responsive. Fokus pada pengalaman pengguna yang nyaman di desktop maupun Android.",
                   chips: ["UI", "Responsive", "DX"],
+                  links: {
+                    github: "https://github.com/YOUR_GITHUB_FRONTEND",
+                    linkedin:
+                      "https://www.linkedin.com/in/YOUR_LINKEDIN_FRONTEND/",
+                  },
                 },
                 {
                   name: "Nama UI/UX",
@@ -802,6 +922,10 @@
                   image: "assets/team/uiux.png",
                   desc: "Merancang alur dan tampilan produk yang sederhana, futuristik, dan mudah dipahami pengguna. Fokus pada clarity & usability.",
                   chips: ["UX Flow", "Design System", "Usability"],
+                  links: {
+                    github: "https://github.com/YOUR_GITHUB_UIUX",
+                    linkedin: "https://www.linkedin.com/in/YOUR_LINKEDIN_UIUX/",
+                  },
                 },
               ],
             },
@@ -935,11 +1059,16 @@
               sub: "Small team, big focus: building products that truly matter.",
               members: [
                 {
-                  name: "Sungaibudi",
+                  name: "Jesslyn",
                   role: "Backend Developer",
-                  image: "assets/team/backend.png",
+                  image: "img/iconuser1.png",
                   desc: "Focused on architecture, APIs, databases, and performance. Builds stable, secure, and scalable systems.",
                   chips: ["API", "Database", "Performance"],
+                  links: {
+                    github: "https://github.com/YOUR_GITHUB_BACKEND",
+                    linkedin:
+                      "https://www.linkedin.com/in/YOUR_LINKEDIN_BACKEND/",
+                  },
                 },
                 {
                   name: "Frontend Name",
@@ -947,6 +1076,11 @@
                   image: "assets/team/frontend.png",
                   desc: "Builds modern, fast, responsive UI. Focused on user comfort across desktop and Android devices.",
                   chips: ["UI", "Responsive", "DX"],
+                  links: {
+                    github: "https://github.com/YOUR_GITHUB_FRONTEND",
+                    linkedin:
+                      "https://www.linkedin.com/in/YOUR_LINKEDIN_FRONTEND/",
+                  },
                 },
                 {
                   name: "UI/UX Name",
@@ -954,6 +1088,10 @@
                   image: "assets/team/uiux.png",
                   desc: "Designs clean, futuristic, easy-to-understand flows. Focus on clarity & usability.",
                   chips: ["UX Flow", "Design System", "Usability"],
+                  links: {
+                    github: "https://github.com/YOUR_GITHUB_UIUX",
+                    linkedin: "https://www.linkedin.com/in/YOUR_LINKEDIN_UIUX/",
+                  },
                 },
               ],
             },
@@ -979,9 +1117,6 @@
           },
         };
 
-        // =========================
-        // HELPERS
-        // =========================
         function escapeHtml(str) {
           return String(str)
             .replaceAll("&", "&amp;")
@@ -992,7 +1127,6 @@
         }
 
         function createImg(src, alt) {
-          // onerror fallback to keep the layout clean
           const safeAlt = escapeHtml(alt);
           const safeSrc = escapeHtml(src);
           return `<img src="${safeSrc}" alt="${safeAlt}" loading="lazy" decoding="async"
@@ -1015,9 +1149,6 @@
     `;
         }
 
-        // =========================
-        // RENDER
-        // =========================
         function render(lang) {
           const c = CONTENT[lang] || CONTENT.id;
 
@@ -1070,9 +1201,33 @@
             )
             .join("");
 
+          /* ===== UPDATED: TEAM CARDS WITH LINKS ===== */
+          const ICONS = {
+            github: `
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.04c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.7.08-.69.08-.69 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.43-2.68 5.4-5.24 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.8.56A11.5 11.5 0 0 0 12 .5Z"/>
+    </svg>
+  `,
+            linkedin: `
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M20.45 20.45h-3.55v-5.4c0-1.29-.03-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85v5.5H9.47V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.26 2.37 4.26 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/>
+    </svg>
+  `,
+          };
+
           const teamCards = c.team.members
-            .map(
-              (m) => `
+            .map((m) => {
+              const gh = m.links?.github ? m.links.github : "";
+              const li = m.links?.linkedin ? m.links.linkedin : "";
+
+              const links = `
+      <div class="profile-links">
+        ${gh ? `<a class="link-btn gh" href="${escapeHtml(gh)}" target="_blank" rel="noopener noreferrer">${ICONS.github}<span>GitHub</span></a>` : ""}
+        ${li ? `<a class="link-btn li" href="${escapeHtml(li)}" target="_blank" rel="noopener noreferrer">${ICONS.linkedin}<span>LinkedIn</span></a>` : ""}
+      </div>
+    `;
+
+              return `
       <div class="card">
         <div class="team">
           <div class="avatar">
@@ -1080,15 +1235,18 @@
           </div>
           <div>
             <h4>${escapeHtml(m.name)}</h4>
-            <p class="role">${escapeHtml(m.role)}</p>
+            <div class="role">${escapeHtml(m.role)}</div>
             <p class="meta">${escapeHtml(m.desc)}</p>
             ${chips(m.chips)}
+            ${links}
           </div>
         </div>
       </div>
-    `,
-            )
+    `;
+            })
             .join("");
+
+          /* ===== END UPDATED ===== */
 
           const contactItems = c.contact.ctas
             .map(
@@ -1246,7 +1404,6 @@
       </main>
     `;
 
-          // wire buttons
           const btnId = $("#btn-id");
           const btnEn = $("#btn-en");
 
@@ -1256,7 +1413,6 @@
 
         function setLang(lang) {
           const normalized = lang === "en" ? "en" : "id";
-          // Keep state in URL hash for easy sharing: #en or #id
           const current = window.location.hash
             .replace("#", "")
             .trim()
@@ -1278,13 +1434,10 @@
           return "id";
         }
 
-        // Initial render
         render(getLangFromHash());
 
-        // Re-render on hash change (e.g. user clicks nav anchors)
         window.addEventListener("hashchange", () => {
           const lang = getLangFromHash();
-          // Only rerender if language part changes
           render(lang);
         });
       })();
