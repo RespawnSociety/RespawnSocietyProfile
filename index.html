@@ -1,1446 +1,320 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0b1020" />
-    <meta name="color-scheme" content="dark" />
-    <title>Respawn Society</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet" />
-    <link rel="stylesheet" href="./style.css" />
-    <style>
-      :root {
-        --bg0: #070a12;
-        --bg1: #0b1020;
-        --card: #0f1730cc;
-        --card2: #0f1730a8;
-        --line: #ffffff14;
-        --text: #e9eeff;
-        --muted: #b8c2ffb8;
-        --muted2: #b8c2ff80;
-
-        --a: #7c5cff;
-        --b: #2de2e6;
-        --c: #ff4fd8;
-
-        --ok: #35f2a5;
-        --warn: #ffcc66;
-
-        --shadow: 0 22px 90px rgba(0, 0, 0, 0.55);
-        --radius: 18px;
-        --radius2: 26px;
-        --max: 1120px;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        height: 100%;
-      }
-      body {
-        margin: 0;
-        font-family:
-          "Space Grotesk",
-          system-ui,
-          -apple-system,
-          Segoe UI,
-          Roboto,
-          Arial,
-          sans-serif;
-        color: var(--text);
-        background:
-          radial-gradient(
-            1200px 800px at 20% 10%,
-            rgba(124, 92, 255, 0.18),
-            transparent 55%
-          ),
-          radial-gradient(
-            900px 700px at 85% 20%,
-            rgba(45, 226, 230, 0.14),
-            transparent 55%
-          ),
-          radial-gradient(
-            900px 700px at 55% 88%,
-            rgba(255, 79, 216, 0.1),
-            transparent 55%
-          ),
-          linear-gradient(180deg, var(--bg0), var(--bg1) 42%, #070a12 100%);
-        overflow-x: hidden;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-      button {
-        font-family: inherit;
-      }
-
-      ::selection {
-        background: rgba(124, 92, 255, 0.35);
-        color: var(--text);
-      }
-
-      .container {
-        width: 100%;
-        max-width: var(--max);
-        margin: 0 auto;
-        padding: 20px;
-      }
-
-      .bg-grid {
-        position: fixed;
-        inset: -2px;
-        z-index: -2;
-        pointer-events: none;
-        background:
-          linear-gradient(
-            to right,
-            rgba(255, 255, 255, 0.05) 1px,
-            transparent 1px
-          ),
-          linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.04) 1px,
-            transparent 1px
-          );
-        background-size: 70px 70px;
-        opacity: 0.18;
-        mask-image: radial-gradient(
-          circle at 50% 30%,
-          black 0,
-          black 45%,
-          transparent 75%
-        );
-      }
-
-      .glow {
-        position: fixed;
-        inset: 0;
-        z-index: -3;
-        pointer-events: none;
-        background:
-          radial-gradient(
-            900px 600px at 20% 15%,
-            rgba(124, 92, 255, 0.18),
-            transparent 60%
-          ),
-          radial-gradient(
-            800px 550px at 85% 25%,
-            rgba(45, 226, 230, 0.14),
-            transparent 60%
-          ),
-          radial-gradient(
-            900px 650px at 55% 90%,
-            rgba(255, 79, 216, 0.12),
-            transparent 60%
-          );
-        filter: blur(0px);
-      }
-
-      .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        backdrop-filter: blur(18px);
-        background: linear-gradient(
-          180deg,
-          rgba(7, 10, 18, 0.82),
-          rgba(7, 10, 18, 0.55)
-        );
-        border-bottom: 1px solid var(--line);
-      }
-
-      .topbar-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        padding: 14px 0;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-width: 220px;
-      }
-
-      .logo {
-        width: 40px;
-        height: 40px;
-        border-radius: 14px;
-        background: url("img/logo.jpg") center / contain no-repeat;
-        box-shadow:
-          0 14px 40px rgba(124, 92, 255, 0.18),
-          0 10px 30px rgba(45, 226, 230, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.22);
-      }
-
-      .brand h1 {
-        font-size: 15px;
-        margin: 0;
-        line-height: 1.2;
-        letter-spacing: 0.2px;
-      }
-      .brand p {
-        margin: 0;
-        color: var(--muted2);
-        font-size: 12px;
-      }
-
-      .nav {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-      }
-      .nav a {
-        font-size: 13px;
-        color: var(--muted);
-        padding: 10px 12px;
-        border-radius: 999px;
-        border: 1px solid transparent;
-        transition: 0.2s ease;
-      }
-      .nav a:hover {
-        color: var(--text);
-        border-color: rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.06);
-      }
-
-      .actions {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        justify-content: flex-end;
-        min-width: 220px;
-      }
-
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-      }
-
-      .lang-btn {
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        background: rgba(255, 255, 255, 0.06);
-        color: var(--text);
-        padding: 8px 10px;
-        border-radius: 999px;
-        cursor: pointer;
-        font-size: 13px;
-        transition: 0.2s ease;
-      }
-      .lang-btn:hover {
-        transform: translateY(-1px);
-        background: rgba(255, 255, 255, 0.09);
-      }
-      .lang-btn[aria-pressed="true"] {
-        border-color: rgba(124, 92, 255, 0.55);
-        box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18);
-      }
-
-      .hero {
-        padding: 38px 0 18px;
-      }
-
-      .hero-wrap {
-        position: relative;
-        border-radius: var(--radius2);
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background:
-          radial-gradient(
-            1200px 600px at 30% 10%,
-            rgba(124, 92, 255, 0.22),
-            transparent 55%
-          ),
-          radial-gradient(
-            900px 550px at 85% 15%,
-            rgba(45, 226, 230, 0.18),
-            transparent 55%
-          ),
-          linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.08),
-            rgba(255, 255, 255, 0.03)
-          );
-        box-shadow: var(--shadow);
-      }
-
-      .hero-inner {
-        padding: 26px;
-        display: grid;
-        grid-template-columns: 1.25fr 0.75fr;
-        gap: 18px;
-      }
-
-      .kicker {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        color: var(--muted);
-        padding: 8px 12px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.04);
-        width: fit-content;
-      }
-
-      .kicker .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--a), var(--b));
-        box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18);
-      }
-
-      .hero h2 {
-        font-size: clamp(26px, 4vw, 44px);
-        margin: 12px 0 10px;
-        line-height: 1.06;
-        letter-spacing: -0.6px;
-      }
-
-      .hero p {
-        margin: 0 0 18px;
-        color: var(--muted);
-        font-size: 14.5px;
-        line-height: 1.6;
-        max-width: 62ch;
-      }
-
-      .cta-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-      }
-
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        cursor: pointer;
-        transition: 0.2s ease;
-        user-select: none;
-        font-weight: 600;
-        font-size: 13.5px;
-      }
-
-      .btn-primary {
-        background: linear-gradient(
-          135deg,
-          rgba(124, 92, 255, 0.9),
-          rgba(45, 226, 230, 0.75) 60%,
-          rgba(255, 79, 216, 0.55)
-        );
-        border-color: rgba(255, 255, 255, 0.22);
-        box-shadow: 0 16px 40px rgba(124, 92, 255, 0.18);
-      }
-      .btn-primary:hover {
-        transform: translateY(-1px);
-      }
-
-      .btn-ghost {
-        background: rgba(255, 255, 255, 0.06);
-      }
-      .btn-ghost:hover {
-        transform: translateY(-1px);
-        background: rgba(255, 255, 255, 0.09);
-      }
-
-      .hero-side {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .stat {
-        background: rgba(15, 23, 48, 0.55);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: 18px;
-        padding: 14px;
-        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
-      }
-
-      .stat .label {
-        color: var(--muted2);
-        font-size: 12px;
-        margin: 0 0 6px;
-      }
-      .stat .value {
-        font-size: 18px;
-        font-weight: 700;
-        margin: 0;
-      }
-      .stat .hint {
-        color: var(--muted);
-        font-size: 12.5px;
-        margin: 8px 0 0;
-        line-height: 1.35;
-      }
-
-      .section {
-        padding: 18px 0;
-      }
-
-      .section-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        gap: 12px;
-        margin-bottom: 12px;
-      }
-
-      .section h3 {
-        margin: 0;
-        font-size: 18px;
-        letter-spacing: -0.2px;
-      }
-      .section .sub {
-        margin: 0;
-        color: var(--muted);
-        font-size: 13.5px;
-        line-height: 1.55;
-      }
-
-      .grid {
-        display: grid;
-        gap: 12px;
-      }
-      .grid.two {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .grid.three {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .card {
-        background: rgba(15, 23, 48, 0.45);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: var(--radius);
-        padding: 16px;
-        box-shadow: 0 20px 70px rgba(0, 0, 0, 0.25);
-        overflow: hidden;
-        position: relative;
-        transition:
-          transform 0.22s ease,
-          box-shadow 0.22s ease,
-          border-color 0.22s ease;
-      }
-
-      .card:hover {
-        transform: translateY(-3px);
-        border-color: rgba(255, 255, 255, 0.22);
-        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.38);
-      }
-      .card::before {
-        content: "";
-        position: absolute;
-        inset: -1px;
-        background:
-          radial-gradient(
-            600px 300px at 25% 0%,
-            rgba(124, 92, 255, 0.14),
-            transparent 55%
-          ),
-          radial-gradient(
-            500px 300px at 90% 10%,
-            rgba(45, 226, 230, 0.1),
-            transparent 55%
-          );
-        opacity: 0.9;
-        pointer-events: none;
-      }
-
-      .card > * {
-        position: relative;
-      }
-
-      .card-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 8px;
-      }
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        padding: 7px 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--muted);
-      }
-
-      .card h4 {
-        margin: 0;
-        font-size: 16px;
-        letter-spacing: -0.2px;
-      }
-      .card p {
-        margin: 8px 0 0;
-        color: var(--muted);
-        line-height: 1.6;
-        font-size: 13.5px;
-      }
-
-      .list {
-        margin: 10px 0 0;
-        padding-left: 18px;
-        color: var(--muted);
-        line-height: 1.7;
-        font-size: 13.5px;
-      }
-      .list li {
-        margin: 6px 0;
-      }
-
-      .product {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .thumb {
-        width: 100%;
-        aspect-ratio: 16/9;
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        overflow: hidden;
-        background:
-          radial-gradient(
-            18px 18px at 25% 30%,
-            rgba(255, 255, 255, 0.65),
-            rgba(255, 255, 255, 0) 62%
-          ),
-          linear-gradient(
-            135deg,
-            rgba(124, 92, 255, 0.75),
-            rgba(45, 226, 230, 0.55) 60%,
-            rgba(255, 79, 216, 0.45)
-          );
-        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
-      }
-
-      .thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .kv {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-top: 10px;
-      }
-      .kv span {
-        font-size: 12px;
-        color: var(--muted);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.05);
-        padding: 7px 10px;
-        border-radius: 999px;
-        opacity: 0.95;
-        padding: 6px 10px;
-      }
-
-      .team {
-        display: flex;
-        gap: 14px;
-        align-items: flex-start;
-      }
-
-      .avatar {
-        width: 62px;
-        height: 62px;
-        border-radius: 18px;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        position: relative;
-        overflow: hidden;
-        background:
-          radial-gradient(
-            16px 16px at 35% 35%,
-            rgba(255, 255, 255, 0.85),
-            rgba(255, 255, 255, 0) 60%
-          ),
-          linear-gradient(
-            135deg,
-            rgba(124, 92, 255, 0.65),
-            rgba(45, 226, 230, 0.5) 60%,
-            rgba(255, 79, 216, 0.4)
-          );
-        flex: 0 0 auto;
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
-      }
-
-      .avatar::after {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        border-radius: 20px;
-        background: linear-gradient(
-          135deg,
-          rgba(124, 92, 255, 0.55),
-          rgba(45, 226, 230, 0.35),
-          rgba(255, 79, 216, 0.35)
-        );
-        filter: blur(10px);
-        opacity: 0.55;
-        z-index: 0;
-      }
-
-      .avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        position: relative;
-        z-index: 1;
-      }
-
-      .team h4 {
-        margin: 2px 0 2px;
-        font-size: 16.5px;
-        letter-spacing: -0.2px;
-      }
-      .role {
-        display: inline-flex;
-        gap: 8px;
-        align-items: center;
-        width: fit-content;
-        margin-top: 2px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--muted);
-        font-size: 12.5px;
-      }
-      .meta {
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        margin-top: 10px;
-      }
-
-      /* ===== ADDED: TEAM LINKS ===== */
-      .profile-links {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-top: 12px;
-      }
-
-      .link-pill {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 8px 12px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.06);
-        color: var(--text);
-        font-size: 12.5px;
-        font-weight: 600;
-        transition: 0.2s ease;
-      }
-
-      .link-pill:hover {
-        transform: translateY(-1px);
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(124, 92, 255, 0.55);
-        box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18);
-      }
-      /* ===== END ADDED ===== */
-
-      .footer {
-        padding: 26px 0 38px;
-        color: var(--muted2);
-        font-size: 13px;
-        border-top: 1px solid var(--line);
-        margin-top: 18px;
-      }
-
-      .small {
-        font-size: 12px;
-        color: var(--muted2);
-      }
-
-      .hr {
-        height: 1px;
-        background: var(--line);
-        margin: 12px 0;
-      }
-
-      @media (max-width: 980px) {
-        .hero-inner {
-          grid-template-columns: 1fr;
-        }
-        .brand {
-          min-width: auto;
-        }
-        .actions {
-          min-width: auto;
-        }
-      }
-
-      @media (max-width: 760px) {
-        .nav {
-          display: none;
-        }
-        .grid.two {
-          grid-template-columns: 1fr;
-        }
-        .grid.three {
-          grid-template-columns: 1fr;
-        }
-        .hero {
-          padding-top: 26px;
-        }
-        .btn {
-          width: 100%;
-        }
-        .cta-row {
-          flex-direction: column;
-          align-items: stretch;
-        }
-      }
-
-      .link-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        background: rgba(255, 255, 255, 0.06);
-        color: var(--text);
-        font-size: 13px;
-        font-weight: 700;
-        transition: 0.2s ease;
-      }
-
-      .link-btn svg {
-        width: 16px;
-        height: 16px;
-        opacity: 0.9;
-      }
-
-      .link-btn:hover {
-        transform: translateY(-1px);
-        border-color: rgba(124, 92, 255, 0.55);
-        background: linear-gradient(
-          135deg,
-          rgba(124, 92, 255, 0.45),
-          rgba(45, 226, 230, 0.22) 55%,
-          rgba(255, 79, 216, 0.18)
-        );
-        box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.18);
-      }
-
-      .link-btn.gh:hover {
-        border-color: rgba(45, 226, 230, 0.55);
-        box-shadow: 0 0 0 4px rgba(45, 226, 230, 0.16);
-      }
-      .link-btn.li:hover {
-        border-color: rgba(255, 79, 216, 0.55);
-        box-shadow: 0 0 0 4px rgba(255, 79, 216, 0.16);
-      }
-    </style>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="./script.js" defer></script>
-    <script>
-      (() => {
-        "use strict";
-
-        const $ = (sel, root = document) => root.querySelector(sel);
-
-        const CONTENT = {
-          id: {
-            brandTagline: "Building Technology to Help People Grow",
-            nav: [
-              { id: "about", label: "Tentang" },
-              { id: "vmg", label: "Visi & Misi" },
-              { id: "products", label: "Produk" },
-              { id: "team", label: "Tim" },
-              { id: "contact", label: "Kontak" },
-            ],
-            hero: {
-              kicker: "Respawn Society • Company Profile",
-              title:
-                "Teknologi futuristik yang membantu UMKM & individu berkembang.",
-              desc: "Kami adalah tim kecil yang membangun produk teknologi yang praktis, rapi, dan mudah dipakai. Fokus kami: membantu UMKM (contoh: aplikasi kasir) dan membantu individu mengelola keuangan (contoh: aplikasi Uang Kita) agar hidup lebih terarah.",
-              ctaPrimary: { label: "Lihat Produk", href: "#products" },
-              ctaGhost: { label: "Kenalan dengan Tim", href: "#team" },
-              stats: [
-                {
-                  label: "Fokus",
-                  value: "Tech for People",
-                  hint: "Produk yang berguna, bukan sekadar fitur.",
-                },
-                {
-                  label: "Kekuatan",
-                  value: "Simple & Scalable",
-                  hint: "Desain bersih, performa cepat, siap berkembang.",
-                },
-                {
-                  label: "Target",
-                  value: "UMKM & Personal Finance",
-                  hint: "Bisnis kecil, usaha menengah, dan kebiasaan hemat.",
-                },
-              ],
-            },
-            about: {
-              title: "Tentang Respawn Society",
-              sub: "Kami membangun solusi digital yang membantu banyak orang. Dari sistem kasir untuk UMKM sampai aplikasi budgeting untuk belajar hemat.",
-              cards: [
-                {
-                  title: "Apa yang kami kerjakan",
-                  badge: "Scope",
-                  body: "Aplikasi web & mobile yang fokus pada kebutuhan nyata: transaksi, laporan, pencatatan, dan pengelolaan keuangan sederhana.",
-                },
-                {
-                  title: "Cara kami membantu",
-                  badge: "Impact",
-                  body: "Kami membantu pengguna memahami teknologi lewat produk yang mudah dipakai, dokumentasi yang jelas, dan iterasi yang cepat.",
-                },
-              ],
-            },
-            vmg: {
-              title: "Visi, Misi & Tujuan",
-              sub: "Arah jangka panjang Respawn Society.",
-              vision: {
-                title: "Visi",
-                badge: "Vision",
-                body: "Menjadi perusahaan besar di bidang teknologi di masa depan yang berdampak positif dan membantu masyarakat melalui solusi digital.",
-              },
-              mission: {
-                title: "Misi",
-                badge: "Mission",
-                list: [
-                  "Membuat aplikasi yang bermanfaat, sederhana, dan mudah digunakan.",
-                  "Mendukung UMKM dan usaha menengah dengan teknologi yang tepat guna.",
-                  "Meningkatkan literasi teknologi dan produktivitas pengguna melalui edukasi dan pengalaman produk yang baik.",
-                ],
-              },
-              goals: {
-                title: "Tujuan",
-                badge: "Goals",
-                body: "Menciptakan produk yang membuat orang lebih efisien, lebih paham teknologi, dan lebih bijak mengatur keuangan.",
-              },
-            },
-            products: {
-              title: "Produk & Aplikasi",
-              sub: "Beberapa produk yang kami kembangkan dan dampaknya.",
-              items: [
-                {
-                  name: "Mesin Kasir UMKM",
-                  tag: "Point of Sale",
-                  image: "assets/app-kasir.png",
-                  desc: "Aplikasi kasir sederhana untuk membantu UMKM dan usaha menengah mengelola transaksi, catatan penjualan, dan ringkasan laporan dengan lebih rapi.",
-                  bullets: [
-                    "Pencatatan transaksi cepat",
-                    "Ringkasan penjualan",
-                    "Membantu operasional harian UMKM",
-                  ],
-                  chips: ["Cepat", "Rapi", "User-friendly"],
-                },
-                {
-                  name: "Uang Kita",
-                  tag: "Personal Finance",
-                  image: "assets/app-uangkita.png",
-                  desc: "Aplikasi pencatatan keuangan yang membantu pengguna belajar hemat: mencatat pemasukan/pengeluaran, melihat pola belanja, dan membuat kebiasaan finansial yang lebih sehat.",
-                  bullets: [
-                    "Catat harian",
-                    "Analisis sederhana",
-                    "Bantu konsisten hemat",
-                  ],
-                  chips: ["Budgeting", "Habit", "Insight"],
-                },
-              ],
-              note: "Catatan: gambar produk bisa kamu taruh di folder assets/ dengan nama file yang sama. Kalau belum ada, website tetap tampil dengan background gradient.",
-            },
-            team: {
-              title: "Tim",
-              sub: "Tim kecil dengan fokus besar: membangun produk yang benar-benar berguna.",
-              members: [
-                {
-                  name: "Jesslyn",
-                  role: "Backend Developer",
-                  image: "assets/team/backend.png",
-                  desc: "Fokus di arsitektur, API, database, dan performa. Membuat sistem yang stabil, aman, dan scalable untuk kebutuhan produk.",
-                  chips: ["API", "Database", "Performance"],
-                  links: {
-                    github: "https://github.com/YOUR_GITHUB_BACKEND",
-                    linkedin:
-                      "https://www.linkedin.com/in/YOUR_LINKEDIN_BACKEND/",
-                  },
-                },
-                {
-                  name: "Nama Frontend",
-                  role: "Frontend Developer",
-                  image: "assets/team/frontend.png",
-                  desc: "Membangun UI modern yang cepat dan responsive. Fokus pada pengalaman pengguna yang nyaman di desktop maupun Android.",
-                  chips: ["UI", "Responsive", "DX"],
-                  links: {
-                    github: "https://github.com/YOUR_GITHUB_FRONTEND",
-                    linkedin:
-                      "https://www.linkedin.com/in/YOUR_LINKEDIN_FRONTEND/",
-                  },
-                },
-                {
-                  name: "Nama UI/UX",
-                  role: "UI/UX Designer",
-                  image: "assets/team/uiux.png",
-                  desc: "Merancang alur dan tampilan produk yang sederhana, futuristik, dan mudah dipahami pengguna. Fokus pada clarity & usability.",
-                  chips: ["UX Flow", "Design System", "Usability"],
-                  links: {
-                    github: "https://github.com/YOUR_GITHUB_UIUX",
-                    linkedin: "https://www.linkedin.com/in/YOUR_LINKEDIN_UIUX/",
-                  },
-                },
-              ],
-            },
-            contact: {
-              title: "Kontak",
-              sub: "Ingin kolaborasi atau butuh bantuan teknologi untuk UMKM? Hubungi kami.",
-              ctas: [
-                { label: "Email", value: "respawnsociety@yourmail.com" },
-                { label: "GitHub", value: "github.com/your-username" },
-                { label: "Instagram", value: "instagram.com/your-handle" },
-              ],
-              footer:
-                "© " +
-                new Date().getFullYear() +
-                " Respawn Society. Built with HTML • CSS • JS (GitHub Pages Ready).",
-            },
-            ui: {
-              langLabel: "Bahasa",
-              langID: "ID",
-              langEN: "EN",
-              copyHint: "Tip: tekan tombol bahasa untuk ganti konten.",
-            },
-          },
-
-          en: {
-            brandTagline: "Building Technology to Help People Grow",
-            nav: [
-              { id: "about", label: "About" },
-              { id: "vmg", label: "Vision & Mission" },
-              { id: "products", label: "Products" },
-              { id: "team", label: "Team" },
-              { id: "contact", label: "Contact" },
-            ],
-            hero: {
-              kicker: "Respawn Society • Company Profile",
-              title:
-                "Futuristic technology that helps SMEs and individuals grow.",
-              desc: "We’re a small tech team building practical, clean, and easy-to-use products. Our focus: helping SMEs (e.g., POS cashier app) and improving personal finance habits (e.g., Uang Kita) so people can be more organized and intentional.",
-              ctaPrimary: { label: "View Products", href: "#products" },
-              ctaGhost: { label: "Meet the Team", href: "#team" },
-              stats: [
-                {
-                  label: "Focus",
-                  value: "Tech for People",
-                  hint: "Useful products — not just features.",
-                },
-                {
-                  label: "Strength",
-                  value: "Simple & Scalable",
-                  hint: "Clean design, fast performance, built to grow.",
-                },
-                {
-                  label: "Target",
-                  value: "SMEs & Personal Finance",
-                  hint: "Small businesses and better saving habits.",
-                },
-              ],
-            },
-            about: {
-              title: "About Respawn Society",
-              sub: "We build digital solutions that help people. From POS systems for SMEs to budgeting apps for better saving habits.",
-              cards: [
-                {
-                  title: "What we build",
-                  badge: "Scope",
-                  body: "Web & mobile applications focused on real needs: transactions, reports, bookkeeping, and simple personal finance management.",
-                },
-                {
-                  title: "How we help",
-                  badge: "Impact",
-                  body: "We help users understand technology through easy UX, clear documentation, and fast iteration.",
-                },
-              ],
-            },
-            vmg: {
-              title: "Vision, Mission & Goals",
-              sub: "The long-term direction of Respawn Society.",
-              vision: {
-                title: "Vision",
-                badge: "Vision",
-                body: "To become a major technology company in the future that creates positive impact and helps society through digital solutions.",
-              },
-              mission: {
-                title: "Mission",
-                badge: "Mission",
-                list: [
-                  "Build helpful, simple, and easy-to-use applications.",
-                  "Support SMEs with practical technology.",
-                  "Improve tech literacy and user productivity through education and great product experience.",
-                ],
-              },
-              goals: {
-                title: "Goals",
-                badge: "Goals",
-                body: "Create products that make people more efficient, more tech-confident, and wiser in managing money.",
-              },
-            },
-            products: {
-              title: "Products & Apps",
-              sub: "A few products we build and the impact they deliver.",
-              items: [
-                {
-                  name: "SME POS Cashier",
-                  tag: "Point of Sale",
-                  image: "assets/app-kasir.png",
-                  desc: "A simple POS cashier app to help SMEs manage transactions, sales records, and summary reports in a cleaner way.",
-                  bullets: [
-                    "Fast checkout flow",
-                    "Sales summaries",
-                    "Supports daily operations",
-                  ],
-                  chips: ["Fast", "Clean", "User-friendly"],
-                },
-                {
-                  name: "Uang Kita",
-                  tag: "Personal Finance",
-                  image: "assets/app-uangkita.png",
-                  desc: "A personal finance tracking app that helps users build saving habits: track income/expenses, spot spending patterns, and stay consistent.",
-                  bullets: [
-                    "Daily tracking",
-                    "Simple insights",
-                    "Helps build saving consistency",
-                  ],
-                  chips: ["Budgeting", "Habit", "Insights"],
-                },
-              ],
-              note: "Note: Place your product images inside assets/ using the same filenames. If images are missing, the UI will still look good with gradient placeholders.",
-            },
-            team: {
-              title: "Team",
-              sub: "Small team, big focus: building products that truly matter.",
-              members: [
-                {
-                  name: "Jesslyn",
-                  role: "Backend Developer",
-                  image: "img/iconuser1.png",
-                  desc: "Focused on architecture, APIs, databases, and performance. Builds stable, secure, and scalable systems.",
-                  chips: ["API", "Database", "Performance"],
-                  links: {
-                    github: "https://github.com/YOUR_GITHUB_BACKEND",
-                    linkedin:
-                      "https://www.linkedin.com/in/YOUR_LINKEDIN_BACKEND/",
-                  },
-                },
-                {
-                  name: "Frontend Name",
-                  role: "Frontend Developer",
-                  image: "assets/team/frontend.png",
-                  desc: "Builds modern, fast, responsive UI. Focused on user comfort across desktop and Android devices.",
-                  chips: ["UI", "Responsive", "DX"],
-                  links: {
-                    github: "https://github.com/YOUR_GITHUB_FRONTEND",
-                    linkedin:
-                      "https://www.linkedin.com/in/YOUR_LINKEDIN_FRONTEND/",
-                  },
-                },
-                {
-                  name: "UI/UX Name",
-                  role: "UI/UX Designer",
-                  image: "assets/team/uiux.png",
-                  desc: "Designs clean, futuristic, easy-to-understand flows. Focus on clarity & usability.",
-                  chips: ["UX Flow", "Design System", "Usability"],
-                  links: {
-                    github: "https://github.com/YOUR_GITHUB_UIUX",
-                    linkedin: "https://www.linkedin.com/in/YOUR_LINKEDIN_UIUX/",
-                  },
-                },
-              ],
-            },
-            contact: {
-              title: "Contact",
-              sub: "Want to collaborate or need tech help for your SME? Reach out.",
-              ctas: [
-                { label: "Email", value: "respawnsociety@yourmail.com" },
-                { label: "GitHub", value: "github.com/your-username" },
-                { label: "Instagram", value: "instagram.com/your-handle" },
-              ],
-              footer:
-                "© " +
-                new Date().getFullYear() +
-                " Respawn Society. Built with HTML • CSS • JS (GitHub Pages Ready).",
-            },
-            ui: {
-              langLabel: "Language",
-              langID: "ID",
-              langEN: "EN",
-              copyHint: "Tip: use the language buttons to switch content.",
-            },
-          },
-        };
-
-        function escapeHtml(str) {
-          return String(str)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
-        }
-
-        function createImg(src, alt) {
-          const safeAlt = escapeHtml(alt);
-          const safeSrc = escapeHtml(src);
-          return `<img src="${safeSrc}" alt="${safeAlt}" loading="lazy" decoding="async"
-      onerror="this.style.display='none';" />`;
-        }
-
-        function chips(list) {
-          if (!Array.isArray(list) || list.length === 0) return "";
-          return `<div class="kv">${list.map((x) => `<span>${escapeHtml(x)}</span>`).join("")}</div>`;
-        }
-
-        function sectionHead(title, sub) {
-          return `
-      <div class="section-head">
-        <div>
-          <h3>${escapeHtml(title)}</h3>
-          <p class="sub">${escapeHtml(sub)}</p>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Respawn Society</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --ink:#0e0e0e;
+  --ink2:#3a3a3a;
+  --ink3:#888;
+  --paper:#f5f0e8;
+  --cream:#ede8dc;
+  --red:#d63b2f;
+  --red2:#f5dbd9;
+  --green:#1a6b3c;
+  --green2:#d4eadb;
+  --amber:#c47d11;
+  --amber2:#faebc8;
+  --rule:rgba(14,14,14,0.14);
+  --f:'Syne',sans-serif;
+  --b:'DM Sans',sans-serif;
+}
+body{font-family:var(--b);background:var(--paper);color:var(--ink);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::selection{background:var(--red);color:#fff}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23f5f0e8'/%3E%3Ccircle cx='1' cy='1' r='0.4' fill='rgba(0,0,0,0.055)'/%3E%3C/svg%3E");}
+nav{border-bottom:2px solid var(--ink);background:var(--paper);position:sticky;top:0;z-index:100}
+.nav-top{display:flex;align-items:stretch;border-bottom:1px solid var(--rule)}
+.nav-logo{padding:12px 24px;border-right:1px solid var(--rule);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-sq{width:28px;height:28px;background:var(--ink);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.logo-sq span{color:var(--paper);font-family:var(--f);font-size:13px;font-weight:800;line-height:1}
+.brand{font-family:var(--f);font-size:14px;font-weight:800;letter-spacing:-0.3px;white-space:nowrap}
+.nav-tagline{flex:1;padding:12px 20px;font-size:11px;font-style:italic;color:var(--ink3);display:flex;align-items:center;letter-spacing:0.3px}
+.lang-sw{display:flex;border-left:1px solid var(--rule)}
+.lang-sw button{padding:12px 16px;background:none;border:none;font-size:12px;font-weight:700;font-family:var(--f);color:var(--ink3);border-left:1px solid var(--rule);letter-spacing:1px;text-transform:uppercase;transition:.15s}
+.lang-sw button:first-child{border-left:none}
+.lang-sw button.active{background:var(--ink);color:var(--paper)}
+.nav-links{display:flex;overflow-x:auto}
+.nav-links a{padding:10px 20px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-family:var(--f);color:var(--ink3);border-right:1px solid var(--rule);white-space:nowrap;transition:.15s;display:block}
+.nav-links a:hover{background:var(--cream);color:var(--ink)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 clamp(16px,4vw,48px)}
+.hero{border-bottom:2px solid var(--ink)}
+.hero-inner{display:grid;grid-template-columns:1fr 280px}
+.hero-main{padding:40px 32px 40px 0;border-right:1px solid var(--rule)}
+.issue-line{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.issue-no{font-family:var(--f);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:5px 10px}
+.issue-date{font-size:11px;color:var(--ink3);letter-spacing:0.5px}
+.hero-kicker{font-family:var(--f);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+h1{font-family:var(--f);font-size:clamp(38px,6vw,72px);font-weight:800;line-height:0.96;letter-spacing:-2px;margin-bottom:20px}
+h1 em{font-style:italic;font-weight:400}
+.hero-dek{font-size:16px;line-height:1.65;color:var(--ink2);max-width:50ch;margin-bottom:28px}
+.cta-row{display:flex;gap:0;border:2px solid var(--ink);width:fit-content}
+.cta-row a{padding:13px 22px;font-family:var(--f);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:.15s;border-right:2px solid var(--ink)}
+.cta-row a:last-child{border-right:none}
+.cta-row a.fill{background:var(--ink);color:var(--paper)}
+.cta-row a.fill:hover{background:var(--red);border-color:var(--red)}
+.cta-row a.plain:hover{background:var(--cream)}
+.hero-side{display:flex;flex-direction:column}
+.stat-block{padding:22px 20px;border-bottom:1px solid var(--rule);flex:1}
+.stat-block:last-child{border-bottom:none}
+.stat-no{font-family:var(--f);font-size:36px;font-weight:800;letter-spacing:-2px;line-height:1;color:rgba(14,14,14,0.15)}
+.stat-label{font-family:var(--f);font-size:13px;font-weight:700;letter-spacing:-0.2px;margin-top:4px}
+.stat-desc{font-size:12px;color:var(--ink3);margin-top:5px;line-height:1.4;font-style:italic}
+.about-section{border-bottom:2px solid var(--ink);padding:48px 0}
+.about-grid{display:grid;grid-template-columns:56px 1fr 1fr;gap:0;border:1px solid var(--rule)}
+.col-sidebar{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--rule);background:var(--cream)}
+.col-vert{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-family:var(--f);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ink3)}
+.about-col{padding:28px;border-right:1px solid var(--rule)}
+.about-col:last-child{border-right:none}
+.col-title{font-family:var(--f);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:14px}
+.about-col p{font-size:14px;line-height:1.7;color:var(--ink2)}
+.tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tag{font-size:10px;font-family:var(--f);font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border:1.5px solid var(--ink);color:var(--ink)}
+.vmg-section{border-bottom:2px solid var(--ink);padding:48px 0}
+.sec-head{display:flex;align-items:baseline;gap:20px;margin-bottom:28px}
+.sec-head h2{font-family:var(--f);font-size:clamp(24px,4vw,50px);font-weight:800;letter-spacing:-1.5px;white-space:nowrap}
+.sec-rule{flex:1;height:2px;background:var(--ink)}
+.vmg-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
+.vmg-card{border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:26px}
+.vmg-num{font-family:var(--f);font-size:52px;font-weight:800;letter-spacing:-3px;line-height:1;color:rgba(14,14,14,0.1);margin-bottom:8px}
+.vmg-tag{display:inline-block;font-size:10px;font-family:var(--f);font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 8px;margin-bottom:12px}
+.vtag-a{background:var(--red2);color:var(--red)}
+.vtag-b{background:var(--green2);color:var(--green)}
+.vtag-c{background:var(--amber2);color:var(--amber)}
+.vmg-card h4{font-family:var(--f);font-size:19px;font-weight:800;letter-spacing:-0.4px;margin-bottom:10px}
+.vmg-card p,.vmg-card li{font-size:13.5px;line-height:1.65;color:var(--ink2)}
+.vmg-card ul{padding-left:16px}.vmg-card li{margin-bottom:6px}
+.prod-section{border-bottom:2px solid var(--ink);padding:48px 0}
+.prod-head{display:flex;align-items:baseline;gap:20px;margin-bottom:28px}
+.prod-head h2{font-family:var(--f);font-size:clamp(24px,4vw,50px);font-weight:800;letter-spacing:-1.5px;white-space:nowrap}
+.prod-head span{font-size:13px;font-style:italic;color:var(--ink3)}
+.prod-grid{display:grid;grid-template-columns:repeat(2,1fr);border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
+.prod-card{border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);overflow:hidden}
+.prod-img{aspect-ratio:16/8;background:var(--cream);border-bottom:1px solid var(--rule);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.prod-img-label{font-family:var(--f);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink3);position:relative;z-index:1}
+.prod-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.prod-body{padding:24px}
+.prod-type{font-size:10px;font-family:var(--f);font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.prod-card h4{font-family:var(--f);font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:10px}
+.prod-desc{font-size:13.5px;line-height:1.65;color:var(--ink2);margin-bottom:12px}
+.prod-card ul{padding-left:16px;margin-bottom:14px}
+.prod-card li{font-size:13px;line-height:1.7;color:var(--ink2)}
+.prod-chips{display:flex;flex-wrap:wrap;gap:6px}
+.prod-chip{font-size:10px;font-family:var(--f);font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;background:var(--ink);color:var(--paper)}
+.team-section{border-bottom:2px solid var(--ink);padding:48px 0}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
+.team-card{border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:24px;transition:.2s}
+.team-card:hover{background:var(--cream)}
+.ava{width:56px;height:56px;background:var(--cream);border:1.5px solid var(--ink);margin-bottom:14px;overflow:hidden;position:relative}
+.ava-init{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f);font-size:17px;font-weight:800;color:var(--ink3)}
+.ava img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
+.team-card h4{font-family:var(--f);font-size:17px;font-weight:800;letter-spacing:-0.3px;margin-bottom:2px}
+.role-label{font-size:10px;font-family:var(--f);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;display:block}
+.team-desc{font-size:12.5px;line-height:1.6;color:var(--ink2);margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.team-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.team-chip{font-size:10px;font-family:var(--f);font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 8px;border:1.5px solid var(--rule);color:var(--ink3)}
+.link-row{display:flex;gap:6px;border-top:1px solid var(--rule);padding-top:14px}
+.lnk{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:var(--f);font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 11px;border:1.5px solid var(--ink);color:var(--ink);transition:.15s}
+.lnk:hover{background:var(--ink);color:var(--paper)}
+.lnk svg{width:12px;height:12px;flex-shrink:0}
+.contact-section{padding:48px 0 64px}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;border:2px solid var(--ink)}
+.contact-left{padding:36px;border-right:2px solid var(--ink)}
+.contact-left h2{font-family:var(--f);font-size:clamp(22px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px;margin-bottom:14px}
+.contact-left p{font-size:14px;line-height:1.65;color:var(--ink2);max-width:36ch}
+.contact-right{display:flex;flex-direction:column}
+.contact-item{padding:20px 26px;border-bottom:1px solid var(--rule);flex:1;display:flex;flex-direction:column;gap:5px}
+.contact-item:last-child{border-bottom:none}
+.ci-label{font-size:10px;font-family:var(--f);font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3)}
+.ci-val{font-size:14px;color:var(--red);font-weight:500}
+footer{border-top:2px solid var(--ink);background:var(--ink)}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0}
+.footer-brand{font-family:var(--f);font-size:13px;font-weight:800;color:var(--paper);letter-spacing:-0.3px}
+.footer-copy{font-size:11px;font-family:var(--f);font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(245,240,232,0.4)}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-side{flex-direction:row;border-top:1px solid var(--rule)}
+  .stat-block{border-right:1px solid var(--rule);border-bottom:none}
+  .stat-block:last-child{border-right:none}
+  .about-grid{grid-template-columns:1fr}
+  .col-sidebar{display:none}
+  .vmg-grid,.team-grid{grid-template-columns:1fr 1fr}
+  .prod-grid{grid-template-columns:1fr}
+  .prod-card{border-right:none;border-bottom:2px solid var(--ink)}
+  .contact-inner{grid-template-columns:1fr}
+  .contact-left{border-right:none;border-bottom:2px solid var(--ink)}
+}
+@media(max-width:600px){
+  .nav-tagline{display:none}
+  h1{letter-spacing:-1px}
+  .vmg-grid,.team-grid{grid-template-columns:1fr}
+  .hero-side{flex-direction:column}
+  .stat-block{border-right:none}
+  .cta-row{width:100%;flex-direction:column}
+  .cta-row a{border-right:none!important;border-bottom:2px solid var(--ink)}
+  .cta-row a:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <div class="nav-top">
+      <div class="nav-logo">
+        <div class="logo-sq"><span>RS</span></div>
+        <span class="brand">Respawn Society</span>
+      </div>
+      <div class="nav-tagline" id="nav-tagline">Building Technology to Help People Grow</div>
+      <div class="lang-sw">
+        <button class="active" id="btn-id" onclick="setLang('id')">ID</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#about" id="nav-about">Tentang</a>
+      <a href="#vmg" id="nav-vmg">Visi &amp; Misi</a>
+      <a href="#products" id="nav-products">Produk</a>
+      <a href="#team" id="nav-team">Tim</a>
+      <a href="#contact" id="nav-contact">Kontak</a>
+    </div>
+  </div>
+</nav>
+<div class="wrap">
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-main">
+        <div class="issue-line">
+          <span class="issue-no">Vol. 01</span>
+          <span class="issue-date" id="hero-date">Company Profile — 2025</span>
+        </div>
+        <div class="hero-kicker" id="hero-kicker">Tech Startup · Jakarta</div>
+        <h1 id="hero-title">Teknologi<br><em>untuk</em><br>semua orang.</h1>
+        <p class="hero-dek" id="hero-desc">Tim kecil yang membangun produk digital praktis dan rapi. Fokus kami: membantu UMKM dan individu mengelola keuangan agar hidup lebih terarah.</p>
+        <div class="cta-row">
+          <a class="fill" href="#products" id="cta1">Lihat Produk →</a>
+          <a class="plain" href="#team" id="cta2">Kenalan Tim</a>
         </div>
       </div>
-    `;
-        }
-
-        function render(lang) {
-          const c = CONTENT[lang] || CONTENT.id;
-
-          document.documentElement.lang = lang === "en" ? "en" : "id";
-          document.title = "Respawn Society";
-
-          const navLinks = c.nav
-            .map(
-              (n) =>
-                `<a href="#${escapeHtml(n.id)}">${escapeHtml(n.label)}</a>`,
-            )
-            .join("");
-
-          const aboutCards = c.about.cards
-            .map(
-              (card) => `
-      <div class="card">
-        <div class="card-title">
-          <h4>${escapeHtml(card.title)}</h4>
-          <span class="badge">${escapeHtml(card.badge)}</span>
-        </div>
-        <p>${escapeHtml(card.body)}</p>
+      <div class="hero-side" id="stats-container"></div>
+    </div>
+  </section>
+  <section class="about-section" id="about">
+    <div class="about-grid">
+      <div class="col-sidebar"><span class="col-vert" id="about-label">Tentang</span></div>
+      <div class="about-col" id="about-col1"></div>
+      <div class="about-col" id="about-col2"></div>
+    </div>
+  </section>
+  <section class="vmg-section" id="vmg">
+    <div class="sec-head">
+      <h2 id="vmg-title">Visi, Misi &amp; Tujuan</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="vmg-grid" id="vmg-cards"></div>
+  </section>
+  <section class="prod-section" id="products">
+    <div class="prod-head">
+      <h2 id="prod-title">Produk &amp; Aplikasi</h2>
+      <span id="prod-sub">yang kami kembangkan</span>
+    </div>
+    <div class="prod-grid" id="prod-cards"></div>
+  </section>
+  <section class="team-section" id="team">
+    <div class="sec-head">
+      <h2 id="team-title">Tim</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="team-grid" id="team-cards"></div>
+  </section>
+  <section class="contact-section" id="contact">
+    <div class="contact-inner">
+      <div class="contact-left">
+        <h2 id="contact-title">Kontak</h2>
+        <p id="contact-sub">Ingin kolaborasi atau butuh bantuan teknologi untuk UMKM?</p>
       </div>
-    `,
-            )
-            .join("");
-
-          const missionList = c.vmg.mission.list
-            .map((li) => `<li>${escapeHtml(li)}</li>`)
-            .join("");
-
-          const productCards = c.products.items
-            .map(
-              (p) => `
-      <div class="card product">
-        <div class="thumb">
-          ${createImg(p.image, p.name)}
-        </div>
-        <div class="card-title">
-          <h4>${escapeHtml(p.name)}</h4>
-          <span class="badge">${escapeHtml(p.tag)}</span>
-        </div>
-        <p>${escapeHtml(p.desc)}</p>
-        <ul class="list">
-          ${p.bullets.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}
-        </ul>
-        ${chips(p.chips)}
-      </div>
-    `,
-            )
-            .join("");
-
-          /* ===== UPDATED: TEAM CARDS WITH LINKS ===== */
-          const ICONS = {
-            github: `
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.04c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.7.08-.69.08-.69 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.43-2.68 5.4-5.24 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.8.56A11.5 11.5 0 0 0 12 .5Z"/>
-    </svg>
-  `,
-            linkedin: `
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M20.45 20.45h-3.55v-5.4c0-1.29-.03-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85v5.5H9.47V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.26 2.37 4.26 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/>
-    </svg>
-  `,
-          };
-
-          const teamCards = c.team.members
-            .map((m) => {
-              const gh = m.links?.github ? m.links.github : "";
-              const li = m.links?.linkedin ? m.links.linkedin : "";
-
-              const links = `
-      <div class="profile-links">
-        ${gh ? `<a class="link-btn gh" href="${escapeHtml(gh)}" target="_blank" rel="noopener noreferrer">${ICONS.github}<span>GitHub</span></a>` : ""}
-        ${li ? `<a class="link-btn li" href="${escapeHtml(li)}" target="_blank" rel="noopener noreferrer">${ICONS.linkedin}<span>LinkedIn</span></a>` : ""}
-      </div>
-    `;
-
-              return `
-      <div class="card">
-        <div class="team">
-          <div class="avatar">
-            ${createImg(m.image, m.name)}
-          </div>
-          <div>
-            <h4>${escapeHtml(m.name)}</h4>
-            <div class="role">${escapeHtml(m.role)}</div>
-            <p class="meta">${escapeHtml(m.desc)}</p>
-            ${chips(m.chips)}
-            ${links}
-          </div>
-        </div>
-      </div>
-    `;
-            })
-            .join("");
-
-          /* ===== END UPDATED ===== */
-
-          const contactItems = c.contact.ctas
-            .map(
-              (x) => `
-      <div class="card">
-        <div class="card-title">
-          <h4>${escapeHtml(x.label)}</h4>
-          <span class="badge">Info</span>
-        </div>
-        <p>${escapeHtml(x.value)}</p>
-      </div>
-    `,
-            )
-            .join("");
-
-          const app = $("#app");
-          app.innerHTML = `
-      <div class="glow"></div>
-      <div class="bg-grid"></div>
-
-      <header class="topbar">
-        <div class="container">
-          <div class="topbar-inner">
-            <a class="brand" href="#top" aria-label="Respawn Society Home">
-              <div class="logo" aria-hidden="true"></div>
-              <div>
-                <h1>Respawn Society</h1>
-                <p>${escapeHtml(c.brandTagline)}</p>
-              </div>
-            </a>
-
-            <nav class="nav" aria-label="Primary Navigation">
-              ${navLinks}
-            </nav>
-
-            <div class="actions">
-              <div class="pill" aria-label="Language Switcher">
-                <span class="small">${escapeHtml(c.ui.langLabel)}:</span>
-                <button class="lang-btn" id="btn-id" type="button" aria-pressed="${lang === "id"}">${escapeHtml(c.ui.langID)}</button>
-                <button class="lang-btn" id="btn-en" type="button" aria-pressed="${lang === "en"}">${escapeHtml(c.ui.langEN)}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main id="top">
-        <section class="hero">
-          <div class="container">
-            <div class="hero-wrap">
-              <div class="hero-inner">
-                <div>
-                  <div class="kicker"><span class="dot" aria-hidden="true"></span> ${escapeHtml(c.hero.kicker)}</div>
-                  <h2>${escapeHtml(c.hero.title)}</h2>
-                  <p>${escapeHtml(c.hero.desc)}</p>
-
-                  <div class="cta-row">
-                    <a class="btn btn-primary" href="${escapeHtml(c.hero.ctaPrimary.href)}">${escapeHtml(c.hero.ctaPrimary.label)}</a>
-                    <a class="btn btn-ghost" href="${escapeHtml(c.hero.ctaGhost.href)}">${escapeHtml(c.hero.ctaGhost.label)}</a>
-                  </div>
-
-                  <div class="hr"></div>
-                  <p class="small">${escapeHtml(c.ui.copyHint)}</p>
-                </div>
-
-                <div class="hero-side">
-                  ${c.hero.stats
-                    .map(
-                      (s) => `
-                    <div class="stat">
-                      <p class="label">${escapeHtml(s.label)}</p>
-                      <p class="value">${escapeHtml(s.value)}</p>
-                      <p class="hint">${escapeHtml(s.hint)}</p>
-                    </div>
-                  `,
-                    )
-                    .join("")}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="about">
-          <div class="container">
-            ${sectionHead(c.about.title, c.about.sub)}
-            <div class="grid two">
-              ${aboutCards}
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="vmg">
-          <div class="container">
-            ${sectionHead(c.vmg.title, c.vmg.sub)}
-            <div class="grid three">
-              <div class="card">
-                <div class="card-title">
-                  <h4>${escapeHtml(c.vmg.vision.title)}</h4>
-                  <span class="badge">${escapeHtml(c.vmg.vision.badge)}</span>
-                </div>
-                <p>${escapeHtml(c.vmg.vision.body)}</p>
-              </div>
-
-              <div class="card">
-                <div class="card-title">
-                  <h4>${escapeHtml(c.vmg.mission.title)}</h4>
-                  <span class="badge">${escapeHtml(c.vmg.mission.badge)}</span>
-                </div>
-                <ul class="list">${missionList}</ul>
-              </div>
-
-              <div class="card">
-                <div class="card-title">
-                  <h4>${escapeHtml(c.vmg.goals.title)}</h4>
-                  <span class="badge">${escapeHtml(c.vmg.goals.badge)}</span>
-                </div>
-                <p>${escapeHtml(c.vmg.goals.body)}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="products">
-          <div class="container">
-            ${sectionHead(c.products.title, c.products.sub)}
-            <div class="grid two">
-              ${productCards}
-            </div>
-            <div class="hr"></div>
-            <p class="small">${escapeHtml(c.products.note)}</p>
-          </div>
-        </section>
-
-        <section class="section" id="team">
-          <div class="container">
-            ${sectionHead(c.team.title, c.team.sub)}
-            <div class="grid three">
-              ${teamCards}
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="contact">
-          <div class="container">
-            ${sectionHead(c.contact.title, c.contact.sub)}
-            <div class="grid three">
-              ${contactItems}
-            </div>
-            <div class="footer">
-              ${escapeHtml(c.contact.footer)}
-            </div>
-          </div>
-        </section>
-      </main>
-    `;
-
-          const btnId = $("#btn-id");
-          const btnEn = $("#btn-en");
-
-          if (btnId) btnId.addEventListener("click", () => setLang("id"));
-          if (btnEn) btnEn.addEventListener("click", () => setLang("en"));
-        }
-
-        function setLang(lang) {
-          const normalized = lang === "en" ? "en" : "id";
-          const current = window.location.hash
-            .replace("#", "")
-            .trim()
-            .toLowerCase();
-          const base = current.startsWith("en")
-            ? current.replace(/^en/, "")
-            : current.startsWith("id")
-              ? current.replace(/^id/, "")
-              : current;
-          const newHash = normalized + (base ? base : "");
-          window.location.hash = newHash || normalized;
-          render(normalized);
-        }
-
-        function getLangFromHash() {
-          const h = window.location.hash.replace("#", "").trim().toLowerCase();
-          if (h.startsWith("en")) return "en";
-          if (h.startsWith("id")) return "id";
-          return "id";
-        }
-
-        render(getLangFromHash());
-
-        window.addEventListener("hashchange", () => {
-          const lang = getLangFromHash();
-          render(lang);
-        });
-      })();
-    </script>
-  </body>
+      <div class="contact-right" id="contact-items"></div>
+    </div>
+  </section>
+</div>
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <span class="footer-brand">Respawn Society</span>
+      <span class="footer-copy" id="footer-copy">© 2025 · Built with HTML · CSS · JS</span>
+    </div>
+  </div>
+</footer>
+<script>
+const C={
+  id:{navTagline:'Building Technology to Help People Grow',navLinks:['Tentang','Visi & Misi','Produk','Tim','Kontak'],heroDate:'Company Profile — 2025',heroKicker:'Tech Startup · Jakarta',heroTitle:'Teknologi<br><em>untuk</em><br>semua orang.',heroDesc:'Tim kecil yang membangun produk digital praktis dan rapi. Fokus kami: membantu UMKM dan individu mengelola keuangan agar hidup lebih terarah.',cta1:'Lihat Produk →',cta2:'Kenalan Tim',
+  stats:[{no:'01',label:'Tech for People',desc:'Produk berguna,\nbukan sekadar fitur'},{no:'02',label:'Simple & Scalable',desc:'Desain bersih,\nsiap berkembang'},{no:'03',label:'UMKM & Finance',desc:'Bisnis kecil &\nkebiasaan hemat'}],
+  aboutLabel:'Tentang',
+  about:[{title:'Apa yang kami kerjakan',body:'Aplikasi web & mobile yang fokus pada kebutuhan nyata: transaksi, laporan, pencatatan, dan pengelolaan keuangan sederhana.',tags:['Web App','Mobile','Finance']},{title:'Cara kami membantu',body:'Produk yang mudah dipakai, dokumentasi yang jelas, dan iterasi yang cepat untuk pengguna dari semua latar belakang.',tags:['UX First','Fast Iter.','Docs']}],
+  vmgTitle:'Visi, Misi & Tujuan',
+  vmg:[{num:'01',tag:'Visi',tagCls:'vtag-a',title:'Vision',body:'Menjadi perusahaan teknologi berdampak positif yang membantu masyarakat melalui solusi digital.',list:null},{num:'02',tag:'Misi',tagCls:'vtag-b',title:'Mission',body:null,list:['Membuat aplikasi bermanfaat, sederhana, dan mudah digunakan.','Mendukung UMKM dengan teknologi yang tepat guna.','Meningkatkan literasi teknologi dan produktivitas pengguna.']},{num:'03',tag:'Tujuan',tagCls:'vtag-c',title:'Goals',body:'Membuat orang lebih efisien, lebih paham teknologi, dan lebih bijak mengatur keuangan.',list:null}],
+  prodTitle:'Produk & Aplikasi',prodSub:'yang kami kembangkan',
+  products:[{type:'Point of Sale',name:'Mesin Kasir UMKM',img:'assets/app-kasir.png',desc:'Aplikasi kasir sederhana untuk UMKM: kelola transaksi, catatan penjualan, dan ringkasan laporan lebih rapi.',bullets:['Pencatatan transaksi cepat','Ringkasan penjualan harian','Operasional UMKM jadi mudah'],chips:['Cepat','Rapi','User-friendly']},{type:'Personal Finance',name:'Uang Kita',img:'assets/app-uangkita.png',desc:'Aplikasi pencatatan keuangan untuk belajar hemat: catat pemasukan/pengeluaran dan lihat pola belanja.',bullets:['Catat pemasukan & pengeluaran','Analisis pola belanja','Bantu konsisten hemat'],chips:['Budgeting','Habit','Insight']}],
+  teamTitle:'Tim',
+  team:[{name:'Jesslyn',init:'JE',role:'Backend Developer',img:'img/iconuser1.png',desc:'Fokus di arsitektur, API, database, dan performa. Membuat sistem stabil, aman, dan scalable.',chips:['API','Database','Performance'],gh:'https://github.com/YOUR_GITHUB_BACKEND',li:'https://www.linkedin.com/in/YOUR_LINKEDIN_BACKEND/'},{name:'Nama Frontend',init:'FE',role:'Frontend Developer',img:'assets/team/frontend.png',desc:'Membangun UI modern yang cepat dan responsive. Fokus pada pengalaman pengguna yang nyaman di semua perangkat.',chips:['UI','Responsive','DX'],gh:'https://github.com/YOUR_GITHUB_FRONTEND',li:'https://www.linkedin.com/in/YOUR_LINKEDIN_FRONTEND/'},{name:'Nama UI/UX',init:'UX',role:'UI/UX Designer',img:'assets/team/uiux.png',desc:'Merancang alur dan tampilan produk yang sederhana, mudah dipahami pengguna. Fokus pada clarity & usability.',chips:['UX Flow','Design Sys.','Usability'],gh:'https://github.com/YOUR_GITHUB_UIUX',li:'https://www.linkedin.com/in/YOUR_LINKEDIN_UIUX/'}],
+  contactTitle:'Kontak',contactSub:'Ingin kolaborasi atau butuh bantuan teknologi untuk UMKM? Hubungi kami.',
+  contacts:[{l:'Email',v:'respawnsociety@yourmail.com'},{l:'GitHub',v:'github.com/your-username'},{l:'Instagram',v:'instagram.com/your-handle'}],
+  footer:'© '+new Date().getFullYear()+' Respawn Society · Built with HTML · CSS · JS'},
+  en:{navTagline:'Building Technology to Help People Grow',navLinks:['About','Vision & Mission','Products','Team','Contact'],heroDate:'Company Profile — 2025',heroKicker:'Tech Startup · Jakarta',heroTitle:'Technology<br><em>for</em><br>everyone.',heroDesc:'A small team building practical, clean, and easy-to-use digital products. Our focus: helping SMEs and improving personal finance habits.',cta1:'View Products →',cta2:'Meet the Team',
+  stats:[{no:'01',label:'Tech for People',desc:'Useful products,\nnot just features'},{no:'02',label:'Simple & Scalable',desc:'Clean design,\nbuilt to grow'},{no:'03',label:'SMEs & Finance',desc:'Small business &\nbetter saving'}],
+  aboutLabel:'About',
+  about:[{title:'What we build',body:'Web & mobile apps focused on real needs: transactions, reports, bookkeeping, and simple personal finance management.',tags:['Web App','Mobile','Finance']},{title:'How we help',body:'Easy UX, clear documentation, and fast iteration for users from all backgrounds.',tags:['UX First','Fast Iter.','Docs']}],
+  vmgTitle:'Vision, Mission & Goals',
+  vmg:[{num:'01',tag:'Vision',tagCls:'vtag-a',title:'Vision',body:'To become a major tech company with positive impact, helping society through digital solutions.',list:null},{num:'02',tag:'Mission',tagCls:'vtag-b',title:'Mission',body:null,list:['Build helpful, simple, easy-to-use applications.','Support SMEs with practical technology.','Improve tech literacy and user productivity.']},{num:'03',tag:'Goals',tagCls:'vtag-c',title:'Goals',body:'Create products that make people more efficient, tech-confident, and wiser with money.',list:null}],
+  prodTitle:'Products & Apps',prodSub:'what we build',
+  products:[{type:'Point of Sale',name:'SME POS Cashier',img:'assets/app-kasir.png',desc:'A simple POS app to help SMEs manage transactions, sales records, and report summaries cleanly.',bullets:['Fast checkout flow','Daily sales summaries','Supports daily operations'],chips:['Fast','Clean','User-friendly']},{type:'Personal Finance',name:'Uang Kita',img:'assets/app-uangkita.png',desc:'A personal finance tracker to build saving habits: log income/expenses and spot spending patterns.',bullets:['Daily income & expense log','Spending pattern analysis','Helps build saving habits'],chips:['Budgeting','Habit','Insights']}],
+  teamTitle:'Team',
+  team:[{name:'Jesslyn',init:'JE',role:'Backend Developer',img:'img/iconuser1.png',desc:'Focused on architecture, APIs, databases, and performance. Builds stable, secure, scalable systems.',chips:['API','Database','Performance'],gh:'https://github.com/YOUR_GITHUB_BACKEND',li:'https://www.linkedin.com/in/YOUR_LINKEDIN_BACKEND/'},{name:'Frontend Name',init:'FE',role:'Frontend Developer',img:'assets/team/frontend.png',desc:'Builds modern, fast, responsive UI. Focused on user comfort across all devices.',chips:['UI','Responsive','DX'],gh:'https://github.com/YOUR_GITHUB_FRONTEND',li:'https://www.linkedin.com/in/YOUR_LINKEDIN_FRONTEND/'},{name:'UI/UX Name',init:'UX',role:'UI/UX Designer',img:'assets/team/uiux.png',desc:'Designs clean, easy-to-understand flows. Focus on clarity and usability.',chips:['UX Flow','Design Sys.','Usability'],gh:'https://github.com/YOUR_GITHUB_UIUX',li:'https://www.linkedin.com/in/YOUR_LINKEDIN_UIUX/'}],
+  contactTitle:'Contact',contactSub:'Want to collaborate or need tech help for your SME? Reach out.',
+  contacts:[{l:'Email',v:'respawnsociety@yourmail.com'},{l:'GitHub',v:'github.com/your-username'},{l:'Instagram',v:'instagram.com/your-handle'}],
+  footer:'© '+new Date().getFullYear()+' Respawn Society · Built with HTML · CSS · JS'}
+};
+const GH=`<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.04c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.7.08-.69.08-.69 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.43-2.68 5.4-5.24 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>`;
+const LI=`<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M20.45 20.45h-3.55v-5.4c0-1.29-.03-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85v5.5H9.47V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.26 2.37 4.26 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>`;
+function render(lang){
+  const c=C[lang]||C.id;
+  document.documentElement.lang=lang;
+  document.getElementById('nav-tagline').textContent=c.navTagline;
+  ['nav-about','nav-vmg','nav-products','nav-team','nav-contact'].forEach((id,i)=>document.getElementById(id).textContent=c.navLinks[i]);
+  document.getElementById('btn-id').className=lang==='id'?'active':'';
+  document.getElementById('btn-en').className=lang==='en'?'active':'';
+  document.getElementById('hero-date').textContent=c.heroDate;
+  document.getElementById('hero-kicker').textContent=c.heroKicker;
+  document.getElementById('hero-title').innerHTML=c.heroTitle;
+  document.getElementById('hero-desc').textContent=c.heroDesc;
+  document.getElementById('cta1').textContent=c.cta1;
+  document.getElementById('cta2').textContent=c.cta2;
+  document.getElementById('stats-container').innerHTML=c.stats.map(s=>`<div class="stat-block"><div class="stat-no">${s.no}</div><div class="stat-label">${s.label}</div><div class="stat-desc">${s.desc.replace('\n','<br>')}</div></div>`).join('');
+  document.getElementById('about-label').textContent=c.aboutLabel;
+  document.getElementById('about-col1').innerHTML=`<div class="col-title">${c.about[0].title}</div><p>${c.about[0].body}</p><div class="tag-list">${c.about[0].tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
+  document.getElementById('about-col2').innerHTML=`<div class="col-title">${c.about[1].title}</div><p>${c.about[1].body}</p><div class="tag-list">${c.about[1].tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
+  document.getElementById('vmg-title').textContent=c.vmgTitle;
+  document.getElementById('vmg-cards').innerHTML=c.vmg.map(v=>`<div class="vmg-card"><div class="vmg-num">${v.num}</div><span class="vmg-tag ${v.tagCls}">${v.tag}</span><h4>${v.title}</h4>${v.body?`<p>${v.body}</p>`:`<ul>${v.list.map(l=>`<li>${l}</li>`).join('')}</ul>`}</div>`).join('');
+  document.getElementById('prod-title').textContent=c.prodTitle;
+  document.getElementById('prod-sub').textContent=c.prodSub;
+  document.getElementById('prod-cards').innerHTML=c.products.map(p=>`<div class="prod-card"><div class="prod-img"><span class="prod-img-label">${p.name}</span><img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'"></div><div class="prod-body"><div class="prod-type">${p.type}</div><h4>${p.name}</h4><p class="prod-desc">${p.desc}</p><ul>${p.bullets.map(b=>`<li>${b}</li>`).join('')}</ul><div class="prod-chips">${p.chips.map(ch=>`<span class="prod-chip">${ch}</span>`).join('')}</div></div></div>`).join('');
+  document.getElementById('team-title').textContent=c.teamTitle;
+  document.getElementById('team-cards').innerHTML=c.team.map(m=>`<div class="team-card"><div class="ava"><div class="ava-init">${m.init}</div><img src="${m.img}" alt="${m.name}" onerror="this.style.display='none'"></div><h4>${m.name}</h4><span class="role-label">${m.role}</span><p class="team-desc">${m.desc}</p><div class="team-chips">${m.chips.map(ch=>`<span class="team-chip">${ch}</span>`).join('')}</div><div class="link-row"><a class="lnk" href="${m.gh}" target="_blank" rel="noopener">${GH} GitHub</a><a class="lnk" href="${m.li}" target="_blank" rel="noopener">${LI} LinkedIn</a></div></div>`).join('');
+  document.getElementById('contact-title').textContent=c.contactTitle;
+  document.getElementById('contact-sub').textContent=c.contactSub;
+  document.getElementById('contact-items').innerHTML=c.contacts.map(x=>`<div class="contact-item"><div class="ci-label">${x.l}</div><div class="ci-val">${x.v}</div></div>`).join('');
+  document.getElementById('footer-copy').textContent=c.footer;
+}
+function setLang(l){render(l)}
+render('id');
+</script>
+</body>
 </html>
