@@ -1,693 +1,1580 @@
 <!doctype html>
 <html lang="id">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Respawn Society</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-:root{
-  --bg:#0c0c0c;
-  --bg2:#141414;
-  --bg3:#1c1c1c;
-  --bg4:#222222;
-  --line:rgba(255,255,255,.07);
-  --line2:rgba(255,255,255,.13);
-  --text:#f0ebe2;
-  --text2:#9a9088;
-  --text3:#4e4844;
-  --red:#e8412b;
-  --red2:#ff6b52;
-  --red-bg:rgba(232,65,43,.1);
-  --red-bd:rgba(232,65,43,.28);
-  --f:'Playfair Display',Georgia,serif;
-  --b:'Instrument Sans',system-ui,sans-serif;
-  --r:8px;
-}
-body{font-family:var(--b);color:var(--text);background:var(--bg);overflow-x:hidden;line-height:1.6}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer;border:none;background:none}
-img{display:block;max-width:100%}
-::selection{background:var(--red);color:#fff}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Respawn Society</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
+      :root {
+        --bg: #0c0c0c;
+        --bg2: #141414;
+        --bg3: #1c1c1c;
+        --bg4: #222222;
+        --line: rgba(255, 255, 255, 0.07);
+        --line2: rgba(255, 255, 255, 0.13);
+        --text: #f0ebe2;
+        --text2: #9a9088;
+        --text3: #4e4844;
+        --red: #e8412b;
+        --red2: #ff6b52;
+        --red-bg: rgba(232, 65, 43, 0.1);
+        --red-bd: rgba(232, 65, 43, 0.28);
+        --f: "Playfair Display", Georgia, serif;
+        --b: "Instrument Sans", system-ui, sans-serif;
+        --r: 8px;
+      }
+      body {
+        font-family: var(--b);
+        color: var(--text);
+        background: var(--bg);
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        background: none;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      ::selection {
+        background: var(--red);
+        color: #fff;
+      }
 
-/* grain */
-body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.02;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+      /* grain */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: 0.02;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
 
-.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(16px,5vw,48px)}
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 clamp(16px, 5vw, 48px);
+      }
 
-/* ── NAV ── */
-nav{
-  position:sticky;top:0;z-index:100;
-  background:rgba(12,12,12,.92);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--line);
-}
-.nav-top{display:flex;align-items:center;gap:12px;min-height:60px}
-.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.logo-sq{width:32px;height:32px;border-radius:6px;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-sq span{color:#fff;font-family:var(--f);font-size:11px;font-weight:700;font-style:italic}
-.brand{font-family:var(--f);font-size:15px;font-weight:700;color:var(--text);white-space:nowrap}
-.nav-tagline{flex:1;min-width:0;color:var(--text3);font-size:11px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 12px}
-.lang-sw{display:flex;gap:5px;margin-left:auto;flex-shrink:0}
-.lang-sw button{
-  border:1px solid var(--line2);color:var(--text3);border-radius:4px;
-  padding:5px 10px;font-size:10px;font-weight:600;letter-spacing:1.2px;
-  text-transform:uppercase;transition:.15s;
-}
-.lang-sw button:hover{color:var(--text);border-color:rgba(255,255,255,.22)}
-.lang-sw button.active{background:var(--red);color:#fff;border-color:var(--red)}
-.nav-links{
-  display:flex;gap:2px;overflow-x:auto;
-  padding:0 0 10px;scrollbar-width:none;
-  -webkit-overflow-scrolling:touch;
-}
-.nav-links::-webkit-scrollbar{display:none}
-.nav-links a{
-  white-space:nowrap;padding:7px 12px;border-radius:4px;
-  font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
-  color:var(--text3);transition:.15s;
-}
-.nav-links a:hover{background:var(--bg3);color:var(--text)}
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(12, 12, 12, 0.92);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav-top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 60px;
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+      .logo-sq {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        background: var(--red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .logo-sq span {
+        color: #fff;
+        font-family: var(--f);
+        font-size: 11px;
+        font-weight: 700;
+        font-style: italic;
+      }
+      .brand {
+        font-family: var(--f);
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text);
+        white-space: nowrap;
+      }
+      .nav-tagline {
+        flex: 1;
+        min-width: 0;
+        color: var(--text3);
+        font-size: 11px;
+        font-style: italic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0 12px;
+      }
+      .lang-sw {
+        display: flex;
+        gap: 5px;
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+      .lang-sw button {
+        border: 1px solid var(--line2);
+        color: var(--text3);
+        border-radius: 4px;
+        padding: 5px 10px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        transition: 0.15s;
+      }
+      .lang-sw button:hover {
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.22);
+      }
+      .lang-sw button.active {
+        background: var(--red);
+        color: #fff;
+        border-color: var(--red);
+      }
+      .nav-links {
+        display: flex;
+        gap: 2px;
+        overflow-x: auto;
+        padding: 0 0 10px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .nav-links::-webkit-scrollbar {
+        display: none;
+      }
+      .nav-links a {
+        white-space: nowrap;
+        padding: 7px 12px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: var(--text3);
+        transition: 0.15s;
+      }
+      .nav-links a:hover {
+        background: var(--bg3);
+        color: var(--text);
+      }
 
-/* ── HERO ── */
-.hero{
-  padding:clamp(40px,7vw,88px) 0 clamp(32px,5vw,64px);
-  position:relative;overflow:hidden;
-}
-.hero-glow{
-  position:absolute;top:-200px;right:-100px;
-  width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle,rgba(232,65,43,.12),transparent 65%);
-  pointer-events:none;z-index:0;
-}
-.hero-inner{position:relative;z-index:1}
+      /* ── HERO ── */
+      .hero {
+        padding: clamp(40px, 7vw, 88px) 0 clamp(32px, 5vw, 64px);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-glow {
+        position: absolute;
+        top: -200px;
+        right: -100px;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(232, 65, 43, 0.12),
+          transparent 65%
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+      }
 
-/* kicker */
-.hero-kicker{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:6px 13px;border-radius:4px;
-  background:var(--red-bg);border:1px solid var(--red-bd);
-  color:var(--red2);font-size:10px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;
-  margin-bottom:24px;
-}
-.hero-kicker::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:currentColor;flex-shrink:0;
-  animation:blink 2s ease infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+      /* kicker */
+      .hero-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 13px;
+        border-radius: 4px;
+        background: var(--red-bg);
+        border: 1px solid var(--red-bd);
+        color: var(--red2);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+      }
+      .hero-kicker::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+        flex-shrink: 0;
+        animation: blink 2s ease infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
 
-/* title — always full width, no overflow */
-.hero-title{
-  font-family:var(--f);
-  font-size:clamp(52px,11vw,120px);
-  font-weight:900;
-  line-height:.9;
-  letter-spacing:clamp(-2px,-0.04em,-3px);
-  margin-bottom:clamp(28px,4vw,52px);
-  word-break:keep-all;
-  overflow-wrap:break-word;
-}
-.hero-title em{font-style:italic;font-weight:700;color:var(--text2)}
-.hero-title .accent{color:var(--red)}
+      /* title — always full width, no overflow */
+      .hero-title {
+        font-family: var(--f);
+        font-size: clamp(52px, 11vw, 120px);
+        font-weight: 900;
+        line-height: 0.9;
+        letter-spacing: clamp(-2px, -0.04em, -3px);
+        margin-bottom: clamp(28px, 4vw, 52px);
+        word-break: keep-all;
+        overflow-wrap: break-word;
+      }
+      .hero-title em {
+        font-style: italic;
+        font-weight: 700;
+        color: var(--text2);
+      }
+      .hero-title .accent {
+        color: var(--red);
+      }
 
-/* two-col body — collapses to 1 col on mobile */
-.hero-body{
-  display:grid;
-  grid-template-columns:1fr 340px;
-  gap:clamp(32px,5vw,72px);
-  align-items:start;
-}
-.hero-dek{
-  font-size:clamp(14px,1.6vw,16px);
-  line-height:1.85;color:var(--text2);
-  margin-bottom:clamp(20px,3vw,28px);
-}
-.cta-row{display:flex;flex-wrap:wrap;gap:10px}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  min-height:46px;padding:11px 22px;
-  border-radius:4px;font-size:10px;font-weight:600;
-  letter-spacing:1.4px;text-transform:uppercase;
-  transition:.2s;white-space:nowrap;
-}
-.btn-fill{background:var(--red);color:#fff;border:1px solid var(--red)}
-.btn-fill:hover{background:var(--red2);border-color:var(--red2);transform:translateY(-2px)}
-.btn-outline{background:transparent;color:var(--text2);border:1px solid var(--line2)}
-.btn-outline:hover{background:var(--bg3);color:var(--text);border-color:rgba(255,255,255,.22);transform:translateY(-2px)}
+      /* two-col body — collapses to 1 col on mobile */
+      .hero-body {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: clamp(32px, 5vw, 72px);
+        align-items: start;
+      }
+      .hero-dek {
+        font-size: clamp(14px, 1.6vw, 16px);
+        line-height: 1.85;
+        color: var(--text2);
+        margin-bottom: clamp(20px, 3vw, 28px);
+      }
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 11px 22px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        transition: 0.2s;
+        white-space: nowrap;
+      }
+      .btn-fill {
+        background: var(--red);
+        color: #fff;
+        border: 1px solid var(--red);
+      }
+      .btn-fill:hover {
+        background: var(--red2);
+        border-color: var(--red2);
+        transform: translateY(-2px);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--text2);
+        border: 1px solid var(--line2);
+      }
+      .btn-outline:hover {
+        background: var(--bg3);
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.22);
+        transform: translateY(-2px);
+      }
 
-/* stat stack */
-.stat-stack{
-  display:flex;flex-direction:column;
-  gap:1px;background:var(--line);
-  border-radius:var(--r);overflow:hidden;
-}
-.stat-item{
-  background:var(--bg2);padding:16px 20px;
-  display:flex;align-items:flex-start;gap:14px;transition:.15s;
-}
-.stat-item:hover{background:var(--bg3)}
-.stat-no{
-  font-family:var(--f);font-size:11px;font-weight:700;
-  color:var(--red);font-style:italic;flex-shrink:0;padding-top:2px;
-}
-.stat-label{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
-.stat-desc{font-size:12px;color:var(--text3);line-height:1.5}
+      /* stat stack */
+      .stat-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        background: var(--line);
+        border-radius: var(--r);
+        overflow: hidden;
+      }
+      .stat-item {
+        background: var(--bg2);
+        padding: 16px 20px;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        transition: 0.15s;
+      }
+      .stat-item:hover {
+        background: var(--bg3);
+      }
+      .stat-no {
+        font-family: var(--f);
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--red);
+        font-style: italic;
+        flex-shrink: 0;
+        padding-top: 2px;
+      }
+      .stat-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 2px;
+      }
+      .stat-desc {
+        font-size: 12px;
+        color: var(--text3);
+        line-height: 1.5;
+      }
 
-/* ── STRIP ── */
-.strip{
-  border-top:1px solid var(--line2);border-bottom:1px solid var(--line);
-  padding:12px 0;display:flex;align-items:center;gap:16px;overflow:hidden;
-}
-.strip-text{font-family:var(--f);font-size:11px;font-style:italic;color:var(--text3);white-space:nowrap;flex-shrink:0}
-.strip-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
-.strip-badge{
-  padding:5px 10px;border:1px solid var(--line2);border-radius:3px;
-  font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  color:var(--text3);white-space:nowrap;flex-shrink:0;
-}
+      /* ── STRIP ── */
+      .strip {
+        border-top: 1px solid var(--line2);
+        border-bottom: 1px solid var(--line);
+        padding: 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        overflow: hidden;
+      }
+      .strip-text {
+        font-family: var(--f);
+        font-size: 11px;
+        font-style: italic;
+        color: var(--text3);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .strip-line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, var(--line2), transparent);
+      }
+      .strip-badge {
+        padding: 5px 10px;
+        border: 1px solid var(--line2);
+        border-radius: 3px;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--text3);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
 
-/* ── SECTIONS ── */
-section{scroll-margin-top:80px;padding:clamp(40px,6vw,72px) 0}
-.sec-label{
-  font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
-  color:var(--red);margin-bottom:12px;display:block;
-}
-.sec-title{
-  font-family:var(--f);
-  font-size:clamp(32px,5.5vw,60px);
-  font-weight:900;line-height:.92;letter-spacing:-2px;
-}
-.sec-head{
-  display:flex;align-items:flex-end;justify-content:space-between;
-  gap:16px;margin-bottom:clamp(24px,4vw,44px);
-  padding-bottom:20px;border-bottom:1px solid var(--line);
-}
-.sec-num{
-  font-family:var(--f);
-  font-size:clamp(48px,7vw,88px);
-  font-weight:900;color:rgba(255,255,255,.04);
-  line-height:1;font-style:italic;flex-shrink:0;
-}
+      /* ── SECTIONS ── */
+      section {
+        scroll-margin-top: 80px;
+        padding: clamp(40px, 6vw, 72px) 0;
+      }
+      .sec-label {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 12px;
+        display: block;
+      }
+      .sec-title {
+        font-family: var(--f);
+        font-size: clamp(32px, 5.5vw, 60px);
+        font-weight: 900;
+        line-height: 0.92;
+        letter-spacing: -2px;
+      }
+      .sec-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: clamp(24px, 4vw, 44px);
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .sec-num {
+        font-family: var(--f);
+        font-size: clamp(48px, 7vw, 88px);
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.04);
+        line-height: 1;
+        font-style: italic;
+        flex-shrink: 0;
+      }
 
-/* ── ABOUT ── */
-.about-grid{
-  display:grid;grid-template-columns:1fr 1px 1fr;
-  background:var(--bg2);border:1px solid var(--line);
-  border-radius:var(--r);overflow:hidden;
-}
-.about-div{background:var(--line2)}
-.about-col{padding:clamp(22px,3.5vw,38px)}
-.about-col h4{font-family:var(--f);font-size:20px;font-weight:700;letter-spacing:-.4px;margin-bottom:12px}
-.about-col p{font-size:14px;line-height:1.88;color:var(--text2)}
-.tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
-.tag{
-  padding:4px 9px;border-radius:3px;font-size:9px;
-  font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
-  border:1px solid var(--line2);color:var(--text3);
-}
+      /* ── ABOUT ── */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr;
+        background: var(--bg2);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        overflow: hidden;
+      }
+      .about-div {
+        background: var(--line2);
+      }
+      .about-col {
+        padding: clamp(22px, 3.5vw, 38px);
+      }
+      .about-col h4 {
+        font-family: var(--f);
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+        margin-bottom: 12px;
+      }
+      .about-col p {
+        font-size: 14px;
+        line-height: 1.88;
+        color: var(--text2);
+      }
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 16px;
+      }
+      .tag {
+        padding: 4px 9px;
+        border-radius: 3px;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        border: 1px solid var(--line2);
+        color: var(--text3);
+      }
 
-/* ── VMG ── */
-.vmg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.vmg-card{
-  background:var(--bg2);border:1px solid var(--line);
-  border-radius:var(--r);padding:clamp(18px,2.5vw,26px);
-  position:relative;overflow:hidden;transition:.2s;
-}
-.vmg-card::after{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--red);transform:scaleX(0);transition:.25s;transform-origin:left;
-}
-.vmg-card:hover{border-color:var(--line2);background:var(--bg3)}
-.vmg-card:hover::after{transform:scaleX(1)}
-.vmg-num{
-  font-family:var(--f);font-size:56px;font-weight:900;line-height:1;
-  color:rgba(255,255,255,.04);margin-bottom:12px;font-style:italic;
-}
-.vmg-tag{
-  display:inline-flex;border-radius:3px;font-size:9px;
-  font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  padding:4px 9px;margin-bottom:12px;
-}
-.vtag-a{background:var(--red-bg);color:var(--red2);border:1px solid var(--red-bd)}
-.vtag-b{background:rgba(34,150,90,.1);color:#4ade80;border:1px solid rgba(74,222,128,.18)}
-.vtag-c{background:rgba(234,179,8,.08);color:#facc15;border:1px solid rgba(250,204,21,.18)}
-.vmg-card h4{font-family:var(--f);font-size:20px;font-weight:700;letter-spacing:-.4px;margin-bottom:10px}
-.vmg-card p,.vmg-card li{font-size:13.5px;line-height:1.8;color:var(--text2)}
-.vmg-card ul{padding-left:16px}
-.vmg-card li+li{margin-top:7px}
+      /* ── VMG ── */
+      .vmg-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .vmg-card {
+        background: var(--bg2);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: clamp(18px, 2.5vw, 26px);
+        position: relative;
+        overflow: hidden;
+        transition: 0.2s;
+      }
+      .vmg-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--red);
+        transform: scaleX(0);
+        transition: 0.25s;
+        transform-origin: left;
+      }
+      .vmg-card:hover {
+        border-color: var(--line2);
+        background: var(--bg3);
+      }
+      .vmg-card:hover::after {
+        transform: scaleX(1);
+      }
+      .vmg-num {
+        font-family: var(--f);
+        font-size: 56px;
+        font-weight: 900;
+        line-height: 1;
+        color: rgba(255, 255, 255, 0.04);
+        margin-bottom: 12px;
+        font-style: italic;
+      }
+      .vmg-tag {
+        display: inline-flex;
+        border-radius: 3px;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 4px 9px;
+        margin-bottom: 12px;
+      }
+      .vtag-a {
+        background: var(--red-bg);
+        color: var(--red2);
+        border: 1px solid var(--red-bd);
+      }
+      .vtag-b {
+        background: rgba(34, 150, 90, 0.1);
+        color: #4ade80;
+        border: 1px solid rgba(74, 222, 128, 0.18);
+      }
+      .vtag-c {
+        background: rgba(234, 179, 8, 0.08);
+        color: #facc15;
+        border: 1px solid rgba(250, 204, 21, 0.18);
+      }
+      .vmg-card h4 {
+        font-family: var(--f);
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+        margin-bottom: 10px;
+      }
+      .vmg-card p,
+      .vmg-card li {
+        font-size: 13.5px;
+        line-height: 1.8;
+        color: var(--text2);
+      }
+      .vmg-card ul {
+        padding-left: 16px;
+      }
+      .vmg-card li + li {
+        margin-top: 7px;
+      }
 
-/* ── PRODUCTS ── */
-.prod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.prod-card{
-  background:var(--bg2);border:1px solid var(--line);
-  border-radius:var(--r);overflow:hidden;transition:.22s;
-}
-.prod-card:hover{border-color:var(--line2);transform:translateY(-4px)}
-.prod-img-wrap{
-  aspect-ratio:16/8;position:relative;overflow:hidden;
-  background:var(--bg3);border-bottom:1px solid var(--line);
-  display:flex;align-items:center;justify-content:center;
-}
-.prod-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.prod-placeholder{display:flex;flex-direction:column;align-items:center;gap:10px;opacity:.15}
-.prod-placeholder svg{width:36px;height:36px}
-.prod-placeholder span{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600}
-.prod-badge{
-  position:absolute;bottom:12px;left:12px;padding:5px 10px;border-radius:3px;
-  background:rgba(12,12,12,.88);backdrop-filter:blur(8px);
-  border:1px solid var(--line2);font-size:9px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;color:var(--red2);z-index:1;
-}
-.prod-body{padding:clamp(18px,2.8vw,26px)}
-.prod-type{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px}
-.prod-card h4{font-family:var(--f);font-size:clamp(18px,2.5vw,24px);font-weight:700;letter-spacing:-.4px;margin-bottom:8px}
-.prod-desc{font-size:13.5px;line-height:1.8;color:var(--text2);margin-bottom:12px}
-.prod-list{list-style:none;margin-bottom:16px;display:flex;flex-direction:column;gap:7px}
-.prod-list li{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2)}
-.prod-list li::before{content:'';flex-shrink:0;width:14px;height:1px;background:var(--red)}
-.prod-chips{display:flex;flex-wrap:wrap;gap:6px}
-.prod-chip{
-  padding:4px 9px;border-radius:3px;font-size:9px;
-  font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
-  background:var(--bg4);color:var(--text3);border:1px solid var(--line);
-}
+      /* ── PRODUCTS ── */
+      .prod-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .prod-card {
+        background: var(--bg2);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        overflow: hidden;
+        transition: 0.22s;
+      }
+      .prod-card:hover {
+        border-color: var(--line2);
+        transform: translateY(-4px);
+      }
+      .prod-img-wrap {
+        aspect-ratio: 16/8;
+        position: relative;
+        overflow: hidden;
+        background: var(--bg3);
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .prod-img-wrap img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .prod-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        opacity: 0.15;
+      }
+      .prod-placeholder svg {
+        width: 36px;
+        height: 36px;
+      }
+      .prod-placeholder span {
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      .prod-badge {
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+        padding: 5px 10px;
+        border-radius: 3px;
+        background: rgba(12, 12, 12, 0.88);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--line2);
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red2);
+        z-index: 1;
+      }
+      .prod-body {
+        padding: clamp(18px, 2.8vw, 26px);
+      }
+      .prod-type {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 8px;
+      }
+      .prod-card h4 {
+        font-family: var(--f);
+        font-size: clamp(18px, 2.5vw, 24px);
+        font-weight: 700;
+        letter-spacing: -0.4px;
+        margin-bottom: 8px;
+      }
+      .prod-desc {
+        font-size: 13.5px;
+        line-height: 1.8;
+        color: var(--text2);
+        margin-bottom: 12px;
+      }
+      .prod-list {
+        list-style: none;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .prod-list li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        color: var(--text2);
+      }
+      .prod-list li::before {
+        content: "";
+        flex-shrink: 0;
+        width: 14px;
+        height: 1px;
+        background: var(--red);
+      }
+      .prod-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .prod-chip {
+        padding: 4px 9px;
+        border-radius: 3px;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        background: var(--bg4);
+        color: var(--text3);
+        border: 1px solid var(--line);
+      }
 
-/* ── TEAM ── */
-.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.team-card{
-  background:var(--bg2);border:1px solid var(--line);
-  border-radius:var(--r);padding:clamp(18px,2.8vw,26px);transition:.2s;
-}
-.team-card:hover{border-color:var(--line2);transform:translateY(-3px)}
-.ava{
-  width:56px;height:56px;border-radius:var(--r);
-  background:var(--bg4);border:1px solid var(--line);
-  margin-bottom:14px;overflow:hidden;position:relative;flex-shrink:0;
-}
-.ava-init{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-family:var(--f);font-size:18px;font-weight:700;font-style:italic;color:var(--text3);
-}
-.ava img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
-.team-card h4{font-family:var(--f);font-size:17px;font-weight:700;letter-spacing:-.3px;margin-bottom:3px}
-.role-label{display:block;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:11px}
-.team-desc{font-size:13px;line-height:1.75;color:var(--text2);margin-bottom:12px}
-.team-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
-.team-chip{
-  padding:4px 8px;border-radius:3px;font-size:9px;
-  font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
-  background:var(--bg4);color:var(--text3);border:1px solid var(--line);
-}
-.link-row{display:flex;flex-wrap:wrap;gap:6px;padding-top:14px;border-top:1px solid var(--line)}
-.lnk{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  padding:7px 11px;border-radius:4px;border:1px solid var(--line2);
-  color:var(--text3);transition:.15s;
-}
-.lnk:hover{background:var(--red);border-color:var(--red);color:#fff}
-.lnk svg{width:12px;height:12px;flex-shrink:0}
+      /* ── TEAM ── */
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .team-card {
+        background: var(--bg2);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: clamp(18px, 2.8vw, 26px);
+        transition: 0.2s;
+      }
+      .team-card:hover {
+        border-color: var(--line2);
+        transform: translateY(-3px);
+      }
+      .ava {
+        width: 56px;
+        height: 56px;
+        border-radius: var(--r);
+        background: var(--bg4);
+        border: 1px solid var(--line);
+        margin-bottom: 14px;
+        overflow: hidden;
+        position: relative;
+        flex-shrink: 0;
+      }
+      .ava-init {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--f);
+        font-size: 18px;
+        font-weight: 700;
+        font-style: italic;
+        color: var(--text3);
+      }
+      .ava img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: relative;
+        z-index: 1;
+      }
+      .team-card h4 {
+        font-family: var(--f);
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        margin-bottom: 3px;
+      }
+      .role-label {
+        display: block;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 11px;
+      }
+      .team-desc {
+        font-size: 13px;
+        line-height: 1.75;
+        color: var(--text2);
+        margin-bottom: 12px;
+      }
+      .team-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-bottom: 16px;
+      }
+      .team-chip {
+        padding: 4px 8px;
+        border-radius: 3px;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        background: var(--bg4);
+        color: var(--text3);
+        border: 1px solid var(--line);
+      }
+      .link-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+      }
+      .lnk {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 7px 11px;
+        border-radius: 4px;
+        border: 1px solid var(--line2);
+        color: var(--text3);
+        transition: 0.15s;
+      }
+      .lnk:hover {
+        background: var(--red);
+        border-color: var(--red);
+        color: #fff;
+      }
+      .lnk svg {
+        width: 12px;
+        height: 12px;
+        flex-shrink: 0;
+      }
 
-/* ── CONTACT ── */
-.contact-wrap{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.contact-inner{display:grid;grid-template-columns:1fr 1fr}
-.contact-left{padding:clamp(24px,4vw,48px);border-right:1px solid var(--line)}
-.contact-left h2{
-  font-family:var(--f);
-  font-size:clamp(26px,4.5vw,48px);
-  font-weight:900;letter-spacing:-1.5px;margin-bottom:14px;line-height:.93;
-}
-.contact-left p{font-size:14px;line-height:1.85;color:var(--text2)}
-.contact-right{display:grid;gap:1px;background:var(--line)}
-.contact-item{
-  padding:clamp(18px,2.5vw,28px) clamp(20px,3vw,32px);
-  background:var(--bg2);display:flex;flex-direction:column;gap:7px;transition:.15s;
-}
-.contact-item:hover{background:var(--bg3)}
-.ci-label{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3)}
-.ci-val{font-size:14px;font-weight:500;color:var(--red2);word-break:break-all}
+      /* ── CONTACT ── */
+      .contact-wrap {
+        background: var(--bg2);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        overflow: hidden;
+      }
+      .contact-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .contact-left {
+        padding: clamp(24px, 4vw, 48px);
+        border-right: 1px solid var(--line);
+      }
+      .contact-left h2 {
+        font-family: var(--f);
+        font-size: clamp(26px, 4.5vw, 48px);
+        font-weight: 900;
+        letter-spacing: -1.5px;
+        margin-bottom: 14px;
+        line-height: 0.93;
+      }
+      .contact-left p {
+        font-size: 14px;
+        line-height: 1.85;
+        color: var(--text2);
+      }
+      .contact-right {
+        display: grid;
+        gap: 1px;
+        background: var(--line);
+      }
+      .contact-item {
+        padding: clamp(18px, 2.5vw, 28px) clamp(20px, 3vw, 32px);
+        background: var(--bg2);
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        transition: 0.15s;
+      }
+      .contact-item:hover {
+        background: var(--bg3);
+      }
+      .ci-label {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--text3);
+      }
+      .ci-val {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--red2);
+        word-break: break-all;
+      }
 
-/* ── FOOTER ── */
-footer{padding:8px 0 28px}
-.footer-inner{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  border:1px solid var(--line);background:var(--bg2);
-  border-radius:6px;padding:14px 20px;
-}
-.footer-brand{font-family:var(--f);font-size:14px;font-weight:700;font-style:italic}
-.footer-copy{font-size:10px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--text3)}
+      /* ── FOOTER ── */
+      footer {
+        padding: 8px 0 28px;
+      }
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid var(--line);
+        background: var(--bg2);
+        border-radius: 6px;
+        padding: 14px 20px;
+      }
+      .footer-brand {
+        font-family: var(--f);
+        font-size: 14px;
+        font-weight: 700;
+        font-style: italic;
+      }
+      .footer-copy {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        color: var(--text3);
+      }
 
-/* ── FADE IN ── */
-.fade-up{opacity:0;transform:translateY(16px);transition:.45s ease}
-.fade-up.visible{opacity:1;transform:none}
+      /* ── FADE IN ── */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: 0.45s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: none;
+      }
 
-/* ── RESPONSIVE ── */
+      /* ── RESPONSIVE ── */
 
-/* Large tablet (960px) */
-@media(max-width:960px){
-  .hero-body{
-    grid-template-columns:1fr;
-    gap:32px;
-  }
-  .stat-stack{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:1px;
-  }
-  .vmg-grid{grid-template-columns:1fr 1fr}
-  .team-grid{grid-template-columns:1fr 1fr}
-  .contact-inner{grid-template-columns:1fr}
-  .contact-left{border-right:none;border-bottom:1px solid var(--line)}
-  .sec-num{display:none}
-}
+      /* Large tablet (960px) */
+      @media (max-width: 960px) {
+        .hero-body {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        .stat-stack {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1px;
+        }
+        .vmg-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .team-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .contact-inner {
+          grid-template-columns: 1fr;
+        }
+        .contact-left {
+          border-right: none;
+          border-bottom: 1px solid var(--line);
+        }
+        .sec-num {
+          display: none;
+        }
+      }
 
-/* Tablet (720px) */
-@media(max-width:720px){
-  .about-grid{
-    display:flex;flex-direction:column;
-    background:transparent;border:none;
-  }
-  .about-div{display:none}
-  .about-col{
-    border:1px solid var(--line);
-    border-radius:var(--r);
-    background:var(--bg2);
-  }
-  .about-col+.about-col{margin-top:8px}
-  .vmg-grid{grid-template-columns:1fr}
-  .prod-grid{grid-template-columns:1fr}
-  .stat-stack{grid-template-columns:1fr 1fr;gap:1px}
-  .sec-head{flex-direction:column;align-items:flex-start;gap:6px}
-}
+      /* Tablet (720px) */
+      @media (max-width: 720px) {
+        .about-grid {
+          display: flex;
+          flex-direction: column;
+          background: transparent;
+          border: none;
+        }
+        .about-div {
+          display: none;
+        }
+        .about-col {
+          border: 1px solid var(--line);
+          border-radius: var(--r);
+          background: var(--bg2);
+        }
+        .about-col + .about-col {
+          margin-top: 8px;
+        }
+        .vmg-grid {
+          grid-template-columns: 1fr;
+        }
+        .prod-grid {
+          grid-template-columns: 1fr;
+        }
+        .stat-stack {
+          grid-template-columns: 1fr 1fr;
+          gap: 1px;
+        }
+        .sec-head {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+        }
+      }
 
-/* Mobile (540px) */
-@media(max-width:540px){
-  .nav-tagline{display:none}
-  .hero{padding:36px 0 28px}
-  .hero-title{
-    font-size:clamp(44px,14vw,60px);
-    letter-spacing:-1.5px;
-    line-height:.92;
-  }
-  .cta-row{flex-direction:column}
-  .cta-row .btn{width:100%;min-height:50px}
-  .stat-stack{grid-template-columns:1fr}
-  .team-grid{grid-template-columns:1fr}
-  .footer-inner{flex-direction:column;align-items:flex-start;gap:6px}
-  .strip-text{display:none}
-  .vmg-num{font-size:44px}
-}
+      /* Mobile (540px) */
+      @media (max-width: 540px) {
+        .nav-tagline {
+          display: none;
+        }
+        .hero {
+          padding: 36px 0 28px;
+        }
+        .hero-title {
+          font-size: clamp(44px, 14vw, 60px);
+          letter-spacing: -1.5px;
+          line-height: 0.92;
+        }
+        .cta-row {
+          flex-direction: column;
+        }
+        .cta-row .btn {
+          width: 100%;
+          min-height: 50px;
+        }
+        .stat-stack {
+          grid-template-columns: 1fr;
+        }
+        .team-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-inner {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+        }
+        .strip-text {
+          display: none;
+        }
+        .vmg-num {
+          font-size: 44px;
+        }
+      }
 
-/* Very small (360px) */
-@media(max-width:360px){
-  .hero-title{font-size:40px;letter-spacing:-1px}
-  .brand{display:none}
-  .wrap{padding:0 14px}
-}
-</style>
-</head>
-<body>
-
-<nav>
-  <div class="wrap">
-    <div class="nav-top">
-      <div class="nav-logo">
-        <div class="logo-sq"><span>RS</span></div>
-        <span class="brand">Respawn Society</span>
-      </div>
-      <div class="nav-tagline" id="nav-tagline">Building Technology to Help People Grow</div>
-      <div class="lang-sw">
-        <button class="active" id="btn-id" onclick="setLang('id')">ID</button>
-        <button id="btn-en" onclick="setLang('en')">EN</button>
-      </div>
-    </div>
-    <div class="nav-links">
-      <a href="#about"    id="nav-about">Tentang</a>
-      <a href="#vmg"      id="nav-vmg">Visi &amp; Misi</a>
-      <a href="#products" id="nav-products">Produk</a>
-      <a href="#team"     id="nav-team">Tim</a>
-      <a href="#contact"  id="nav-contact">Kontak</a>
-    </div>
-  </div>
-</nav>
-
-<div class="wrap">
-
-  <!-- HERO -->
-  <section class="hero" id="top">
-    <div class="hero-glow"></div>
-    <div class="hero-inner">
-      <div class="hero-kicker" id="hero-kicker">Tech Startup · Jakarta</div>
-      <h1 class="hero-title" id="hero-title">
-        Teknologi<br><em>untuk</em><br><span class="accent">semua.</span>
-      </h1>
-      <div class="hero-body">
-        <div class="hero-left">
-          <p class="hero-dek" id="hero-desc">Tim kecil yang membangun produk digital praktis dan rapi. Fokus kami: membantu UMKM dan individu mengelola keuangan agar hidup lebih terarah.</p>
-          <div class="cta-row">
-            <a class="btn btn-fill" href="#products" id="cta1">Lihat Produk →</a>
-            <a class="btn btn-outline" href="#team" id="cta2">Kenalan Tim</a>
+      /* Very small (360px) */
+      @media (max-width: 360px) {
+        .hero-title {
+          font-size: 40px;
+          letter-spacing: -1px;
+        }
+        .brand {
+          display: none;
+        }
+        .wrap {
+          padding: 0 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="wrap">
+        <div class="nav-top">
+          <div class="nav-logo">
+            <div class="logo-sq"><span>RS</span></div>
+            <span class="brand">Respawn Society</span>
+          </div>
+          <div class="nav-tagline" id="nav-tagline">
+            Building Technology to Help People Grow
+          </div>
+          <div class="lang-sw">
+            <button class="active" id="btn-id" onclick="setLang('id')">
+              ID
+            </button>
+            <button id="btn-en" onclick="setLang('en')">EN</button>
           </div>
         </div>
-        <div class="hero-right">
-          <div class="stat-stack" id="stats-container"></div>
+        <div class="nav-links">
+          <a href="#about" id="nav-about">Tentang</a>
+          <a href="#vmg" id="nav-vmg">Visi &amp; Misi</a>
+          <a href="#products" id="nav-products">Produk</a>
+          <a href="#team" id="nav-team">Tim</a>
+          <a href="#contact" id="nav-contact">Kontak</a>
         </div>
       </div>
-    </div>
-  </section>
+    </nav>
 
-  <div class="strip">
-    <span class="strip-text" id="strip-text">Company Profile — Vol. 01 — 2025</span>
-    <div class="strip-line"></div>
-    <span class="strip-badge">Respawn Society</span>
-  </div>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="sec-head">
-      <div>
-        <span class="sec-label" id="about-label-top">Tentang Kami</span>
-        <h2 class="sec-title" id="about-title">Siapa kami?</h2>
-      </div>
-      <span class="sec-num">01</span>
-    </div>
-    <div class="about-grid">
-      <div class="about-col" id="about-col1"></div>
-      <div class="about-div"></div>
-      <div class="about-col" id="about-col2"></div>
-    </div>
-  </section>
-
-  <!-- VMG -->
-  <section id="vmg">
-    <div class="sec-head">
-      <div>
-        <span class="sec-label" id="vmg-label">Visi · Misi · Tujuan</span>
-        <h2 class="sec-title" id="vmg-title">Arah kami</h2>
-      </div>
-      <span class="sec-num">02</span>
-    </div>
-    <div class="vmg-grid" id="vmg-cards"></div>
-  </section>
-
-  <!-- PRODUCTS -->
-  <section id="products">
-    <div class="sec-head">
-      <div>
-        <span class="sec-label" id="prod-label">Yang kami bangun</span>
-        <h2 class="sec-title" id="prod-title">Produk &amp; Aplikasi</h2>
-      </div>
-      <span class="sec-num">03</span>
-    </div>
-    <div class="prod-grid" id="prod-cards"></div>
-  </section>
-
-  <!-- TEAM -->
-  <section id="team">
-    <div class="sec-head">
-      <div>
-        <span class="sec-label" id="team-label">Orang-orang di balik layar</span>
-        <h2 class="sec-title" id="team-title">Tim</h2>
-      </div>
-      <span class="sec-num">04</span>
-    </div>
-    <div class="team-grid" id="team-cards"></div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="sec-head">
-      <div>
-        <span class="sec-label" id="contact-label">Hubungi kami</span>
-        <h2 class="sec-title" id="contact-title">Kontak</h2>
-      </div>
-      <span class="sec-num">05</span>
-    </div>
-    <div class="contact-wrap">
-      <div class="contact-inner">
-        <div class="contact-left">
-          <h2 id="contact-h">Mari<br><em>ngobrol.</em></h2>
-          <p id="contact-sub">Ingin kolaborasi atau butuh bantuan teknologi untuk UMKM? Hubungi kami.</p>
+    <div class="wrap">
+      <!-- HERO -->
+      <section class="hero" id="top">
+        <div class="hero-glow"></div>
+        <div class="hero-inner">
+          <div class="hero-kicker" id="hero-kicker">Tech Startup · Jakarta</div>
+          <h1 class="hero-title" id="hero-title">
+            Teknologi<br /><em>untuk</em><br /><span class="accent"
+              >semua.</span
+            >
+          </h1>
+          <div class="hero-body">
+            <div class="hero-left">
+              <p class="hero-dek" id="hero-desc">
+                Tim kecil yang membangun produk digital praktis dan rapi. Fokus
+                kami: membantu UMKM dan individu mengelola keuangan agar hidup
+                lebih terarah.
+              </p>
+              <div class="cta-row">
+                <a class="btn btn-fill" href="#products" id="cta1"
+                  >Lihat Produk →</a
+                >
+                <a class="btn btn-outline" href="#team" id="cta2"
+                  >Kenalan Tim</a
+                >
+              </div>
+            </div>
+            <div class="hero-right">
+              <div class="stat-stack" id="stats-container"></div>
+            </div>
+          </div>
         </div>
-        <div class="contact-right" id="contact-items"></div>
+      </section>
+
+      <div class="strip">
+        <span class="strip-text" id="strip-text"
+          >Company Profile — Vol. 01 — 2025</span
+        >
+        <div class="strip-line"></div>
+        <span class="strip-badge">Respawn Society</span>
       </div>
+
+      <!-- ABOUT -->
+      <section id="about">
+        <div class="sec-head">
+          <div>
+            <span class="sec-label" id="about-label-top">Tentang Kami</span>
+            <h2 class="sec-title" id="about-title">Siapa kami?</h2>
+          </div>
+          <span class="sec-num">01</span>
+        </div>
+        <div class="about-grid">
+          <div class="about-col" id="about-col1"></div>
+          <div class="about-div"></div>
+          <div class="about-col" id="about-col2"></div>
+        </div>
+      </section>
+
+      <!-- VMG -->
+      <section id="vmg">
+        <div class="sec-head">
+          <div>
+            <span class="sec-label" id="vmg-label">Visi · Misi · Tujuan</span>
+            <h2 class="sec-title" id="vmg-title">Arah kami</h2>
+          </div>
+          <span class="sec-num">02</span>
+        </div>
+        <div class="vmg-grid" id="vmg-cards"></div>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section id="products">
+        <div class="sec-head">
+          <div>
+            <span class="sec-label" id="prod-label">Yang kami bangun</span>
+            <h2 class="sec-title" id="prod-title">Produk &amp; Aplikasi</h2>
+          </div>
+          <span class="sec-num">03</span>
+        </div>
+        <div class="prod-grid" id="prod-cards"></div>
+      </section>
+
+      <!-- TEAM -->
+      <section id="team">
+        <div class="sec-head">
+          <div>
+            <span class="sec-label" id="team-label"
+              >Orang-orang di balik layar</span
+            >
+            <h2 class="sec-title" id="team-title">Tim</h2>
+          </div>
+          <span class="sec-num">04</span>
+        </div>
+        <div class="team-grid" id="team-cards"></div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact">
+        <div class="sec-head">
+          <div>
+            <span class="sec-label" id="contact-label">Hubungi kami</span>
+            <h2 class="sec-title" id="contact-title">Kontak</h2>
+          </div>
+          <span class="sec-num">05</span>
+        </div>
+        <div class="contact-wrap">
+          <div class="contact-inner">
+            <div class="contact-left">
+              <h2 id="contact-h">Mari<br /><em>ngobrol.</em></h2>
+              <p id="contact-sub">
+                Ingin kolaborasi atau butuh bantuan teknologi untuk UMKM?
+                Hubungi kami.
+              </p>
+            </div>
+            <div class="contact-right" id="contact-items"></div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="footer-inner">
+          <span class="footer-brand">Respawn Society</span>
+          <span class="footer-copy" id="footer-copy"
+            >©2026 </span
+          >
+        </div>
+      </footer>
     </div>
-  </section>
 
-  <footer>
-    <div class="footer-inner">
-      <span class="footer-brand">Respawn Society</span>
-      <span class="footer-copy" id="footer-copy">© 2025 · Built with HTML · CSS · JS</span>
-    </div>
-  </footer>
+    <script>
+      const GH = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.04c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.7.08-.69.08-.69 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.43-2.68 5.4-5.24 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>`;
+      const LI = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.4c0-1.29-.03-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85v5.5H9.47V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.26 2.37 4.26 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>`;
 
-</div>
+      const C = {
+        id: {
+          navTagline: "Building Technology to Help People Grow",
+          navLinks: ["Tentang", "Visi & Misi", "Produk", "Tim", "Kontak"],
+          heroKicker: "Tech Startup · Jakarta",
+          heroTitle:
+            'Teknologi<br><em>untuk</em><br><span class="accent">semua.</span>',
+          heroDesc:
+            "Tim kecil yang membangun produk digital praktis dan rapi. Fokus kami: membantu UMKM dan individu mengelola keuangan agar hidup lebih terarah.",
+          cta1: "Lihat Produk →",
+          cta2: "Kenalan Tim",
+          strip: "Company Profile — Vol. 01 — 2025",
+          stats: [
+            {
+              no: "01",
+              label: "Tech for People",
+              desc: "Produk berguna, bukan sekadar fitur",
+            },
+            {
+              no: "02",
+              label: "Simple & Scalable",
+              desc: "Desain bersih, siap berkembang",
+            },
+            {
+              no: "03",
+              label: "UMKM & Finance",
+              desc: "Bisnis kecil & kebiasaan hemat",
+            },
+          ],
+          aboutLabelTop: "Tentang Kami",
+          aboutTitle: "Siapa kami?",
+          about: [
+            {
+              title: "Apa yang kami kerjakan",
+              body: "Aplikasi web & mobile yang fokus pada kebutuhan nyata: transaksi, laporan, pencatatan, dan pengelolaan keuangan sederhana.",
+              tags: ["Web App", "Mobile", "Finance"],
+            },
+            {
+              title: "Cara kami membantu",
+              body: "Produk yang mudah dipakai, dokumentasi yang jelas, dan iterasi yang cepat untuk pengguna dari semua latar belakang.",
+              tags: ["UX First", "Fast Iter.", "Open Docs"],
+            },
+          ],
+          vmgLabel: "Visi · Misi · Tujuan",
+          vmgTitle: "Arah kami",
+          vmg: [
+            {
+              num: "01",
+              tag: "Visi",
+              cls: "vtag-a",
+              title: "Vision",
+              body: "Menjadi perusahaan teknologi berdampak positif yang membantu masyarakat melalui solusi digital.",
+              list: null,
+            },
+            {
+              num: "02",
+              tag: "Misi",
+              cls: "vtag-b",
+              title: "Mission",
+              body: null,
+              list: [
+                "Membuat aplikasi bermanfaat, sederhana, dan mudah digunakan.",
+                "Mendukung UMKM dengan teknologi yang tepat guna.",
+                "Meningkatkan literasi teknologi dan produktivitas pengguna.",
+              ],
+            },
+            {
+              num: "03",
+              tag: "Tujuan",
+              cls: "vtag-c",
+              title: "Goals",
+              body: "Membuat orang lebih efisien, lebih paham teknologi, dan lebih bijak mengatur keuangan.",
+              list: null,
+            },
+          ],
+          prodLabel: "Yang kami bangun",
+          prodTitle: "Produk & Aplikasi",
+          products: [
+            {
+              type: "Point of Sale",
+              name: "Mesin Kasir UMKM",
+              img: "assets/app-kasir.png",
+              desc: "Aplikasi kasir sederhana untuk UMKM: kelola transaksi, catatan penjualan, dan ringkasan laporan lebih rapi.",
+              bullets: [
+                "Pencatatan transaksi cepat",
+                "Ringkasan penjualan harian",
+                "Operasional UMKM jadi mudah",
+              ],
+              chips: ["Cepat", "Rapi", "User-friendly"],
+            },
+            {
+              type: "Personal Finance",
+              name: "Uang Kita",
+              img: "assets/app-uangkita.png",
+              desc: "Aplikasi pencatatan keuangan untuk belajar hemat: catat pemasukan/pengeluaran dan lihat pola belanja.",
+              bullets: [
+                "Catat pemasukan & pengeluaran",
+                "Analisis pola belanja",
+                "Bantu konsisten hemat",
+              ],
+              chips: ["Budgeting", "Habit", "Insight"],
+            },
+          ],
+          teamLabel: "Orang-orang di balik layar",
+          teamTitle: "Tim",
+          team: [
+            {
+              name: "Jesslyn",
+              init: "JE",
+              role: "Backend Developer",
+              img: "img/iconuser1.png",
+              desc: "Fokus di arsitektur, API, database, dan performa. Membuat sistem stabil, aman, dan scalable.",
+              chips: ["API", "Database", "Performance"],
+              gh: "https://github.com/YOUR_GITHUB",
+              li: "https://www.linkedin.com/in/YOUR_LINKEDIN/",
+            },
+            {
+              name: "Nama Frontend",
+              init: "FE",
+              role: "Frontend Developer",
+              img: "assets/team/frontend.png",
+              desc: "Membangun UI modern yang cepat dan responsive. Fokus pada pengalaman pengguna yang nyaman di semua perangkat.",
+              chips: ["UI", "Responsive", "DX"],
+              gh: "https://github.com/YOUR_GITHUB",
+              li: "https://www.linkedin.com/in/YOUR_LINKEDIN/",
+            },
+            {
+              name: "Nama UI/UX",
+              init: "UX",
+              role: "UI/UX Designer",
+              img: "assets/team/uiux.png",
+              desc: "Merancang alur dan tampilan produk yang sederhana, mudah dipahami pengguna. Fokus pada clarity & usability.",
+              chips: ["UX Flow", "Design Sys.", "Usability"],
+              gh: "https://github.com/YOUR_GITHUB",
+              li: "https://www.linkedin.com/in/YOUR_LINKEDIN/",
+            },
+          ],
+          contactLabel: "Hubungi kami",
+          contactTitle: "Kontak",
+          contactH: "Mari<br><em>ngobrol.</em>",
+          contactSub:
+            "Ingin kolaborasi atau butuh bantuan teknologi untuk UMKM? Hubungi kami.",
+          contacts: [
+            { l: "Email", v: "respawnsociety@yourmail.com" },
+            { l: "GitHub", v: "github.com/your-username" },
+            { l: "Instagram", v: "instagram.com/your-handle" },
+          ],
+          footer:
+            "© " +
+            new Date().getFullYear() +
+            " Respawn Society · Built with HTML · CSS · JS",
+        },
+        en: {
+          navTagline: "Building Technology to Help People Grow",
+          navLinks: [
+            "About",
+            "Vision & Mission",
+            "Products",
+            "Team",
+            "Contact",
+          ],
+          heroKicker: "Tech Startup · Jakarta",
+          heroTitle:
+            'Technology<br><em>for</em><br><span class="accent">everyone.</span>',
+          heroDesc:
+            "A small team building practical, clean digital products. Our focus: helping SMEs and individuals manage finances more intentionally.",
+          cta1: "View Products →",
+          cta2: "Meet the Team",
+          strip: "Company Profile — Vol. 01 — 2025",
+          stats: [
+            {
+              no: "01",
+              label: "Tech for People",
+              desc: "Useful products, not just features",
+            },
+            {
+              no: "02",
+              label: "Simple & Scalable",
+              desc: "Clean design, built to grow",
+            },
+            {
+              no: "03",
+              label: "SMEs & Finance",
+              desc: "Small business & smarter saving",
+            },
+          ],
+          aboutLabelTop: "About Us",
+          aboutTitle: "Who are we?",
+          about: [
+            {
+              title: "What we build",
+              body: "Web & mobile apps focused on real needs: transactions, reports, bookkeeping, and simple personal finance management.",
+              tags: ["Web App", "Mobile", "Finance"],
+            },
+            {
+              title: "How we help",
+              body: "Easy UX, clear documentation, and fast iteration for users from all backgrounds.",
+              tags: ["UX First", "Fast Iter.", "Open Docs"],
+            },
+          ],
+          vmgLabel: "Vision · Mission · Goals",
+          vmgTitle: "Our direction",
+          vmg: [
+            {
+              num: "01",
+              tag: "Vision",
+              cls: "vtag-a",
+              title: "Vision",
+              body: "To become a tech company with meaningful positive impact, helping communities through digital solutions.",
+              list: null,
+            },
+            {
+              num: "02",
+              tag: "Mission",
+              cls: "vtag-b",
+              title: "Mission",
+              body: null,
+              list: [
+                "Build helpful, simple, easy-to-use applications.",
+                "Support SMEs with practical technology.",
+                "Improve tech literacy and user productivity.",
+              ],
+            },
+            {
+              num: "03",
+              tag: "Goals",
+              cls: "vtag-c",
+              title: "Goals",
+              body: "Create products that make people more efficient, tech-confident, and wiser with money.",
+              list: null,
+            },
+          ],
+          prodLabel: "What we build",
+          prodTitle: "Products & Apps",
+          products: [
+            {
+              type: "Point of Sale",
+              name: "SME POS Cashier",
+              img: "assets/app-kasir.png",
+              desc: "A simple POS app to help SMEs manage transactions, sales records, and report summaries cleanly.",
+              bullets: [
+                "Fast checkout flow",
+                "Daily sales summaries",
+                "Supports daily operations",
+              ],
+              chips: ["Fast", "Clean", "User-friendly"],
+            },
+            {
+              type: "Personal Finance",
+              name: "Uang Kita",
+              img: "assets/app-uangkita.png",
+              desc: "A personal finance tracker to build saving habits: log income/expenses and spot spending patterns.",
+              bullets: [
+                "Daily income & expense log",
+                "Spending pattern analysis",
+                "Helps build saving habits",
+              ],
+              chips: ["Budgeting", "Habit", "Insights"],
+            },
+          ],
+          teamLabel: "The people behind the screen",
+          teamTitle: "Team",
+          team: [
+            {
+              name: "Jesslyn",
+              init: "JE",
+              role: "Backend Developer",
+              img: "img/iconuser1.png",
+              desc: "Focused on architecture, APIs, databases, and performance. Builds stable, secure, scalable systems.",
+              chips: ["API", "Database", "Performance"],
+              gh: "https://github.com/YOUR_GITHUB",
+              li: "https://www.linkedin.com/in/YOUR_LINKEDIN/",
+            },
+            {
+              name: "Frontend Name",
+              init: "FE",
+              role: "Frontend Developer",
+              img: "assets/team/frontend.png",
+              desc: "Builds modern, fast, responsive UI. Focused on user comfort across all devices.",
+              chips: ["UI", "Responsive", "DX"],
+              gh: "https://github.com/YOUR_GITHUB",
+              li: "https://www.linkedin.com/in/YOUR_LINKEDIN/",
+            },
+            {
+              name: "UI/UX Name",
+              init: "UX",
+              role: "UI/UX Designer",
+              img: "assets/team/uiux.png",
+              desc: "Designs clean, easy-to-understand flows. Focus on clarity and usability.",
+              chips: ["UX Flow", "Design Sys.", "Usability"],
+              gh: "https://github.com/YOUR_GITHUB",
+              li: "https://www.linkedin.com/in/YOUR_LINKEDIN/",
+            },
+          ],
+          contactLabel: "Get in touch",
+          contactTitle: "Contact",
+          contactH: "Let's<br><em>talk.</em>",
+          contactSub:
+            "Want to collaborate or need tech help for your SME? Reach out.",
+          contacts: [
+            { l: "Email", v: "respawnsociety@yourmail.com" },
+            { l: "GitHub", v: "github.com/your-username" },
+            { l: "Instagram", v: "instagram.com/your-handle" },
+          ],
+          footer:
+            "© " +
+            new Date().getFullYear() +
+            " Respawn Society · Built with HTML · CSS · JS",
+        },
+      };
 
-<script>
-const GH=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.04c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.7.08-.69.08-.69 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.43-2.68 5.4-5.24 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>`;
-const LI=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.4c0-1.29-.03-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85v5.5H9.47V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.26 2.37 4.26 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>`;
+      function render(lang) {
+        const c = C[lang] || C.id;
+        document.documentElement.lang = lang;
+        document.getElementById("btn-id").className =
+          lang === "id" ? "active" : "";
+        document.getElementById("btn-en").className =
+          lang === "en" ? "active" : "";
+        document.getElementById("nav-tagline").textContent = c.navTagline;
+        [
+          "nav-about",
+          "nav-vmg",
+          "nav-products",
+          "nav-team",
+          "nav-contact",
+        ].forEach(
+          (id, i) => (document.getElementById(id).textContent = c.navLinks[i]),
+        );
+        document.getElementById("hero-kicker").textContent = c.heroKicker;
+        document.getElementById("hero-title").innerHTML = c.heroTitle;
+        document.getElementById("hero-desc").textContent = c.heroDesc;
+        document.getElementById("cta1").textContent = c.cta1;
+        document.getElementById("cta2").textContent = c.cta2;
+        document.getElementById("strip-text").textContent = c.strip;
 
-const C={
-id:{
-  navTagline:'Building Technology to Help People Grow',
-  navLinks:['Tentang','Visi & Misi','Produk','Tim','Kontak'],
-  heroKicker:'Tech Startup · Jakarta',
-  heroTitle:'Teknologi<br><em>untuk</em><br><span class="accent">semua.</span>',
-  heroDesc:'Tim kecil yang membangun produk digital praktis dan rapi. Fokus kami: membantu UMKM dan individu mengelola keuangan agar hidup lebih terarah.',
-  cta1:'Lihat Produk →', cta2:'Kenalan Tim',
-  strip:'Company Profile — Vol. 01 — 2025',
-  stats:[
-    {no:'01',label:'Tech for People',desc:'Produk berguna, bukan sekadar fitur'},
-    {no:'02',label:'Simple & Scalable',desc:'Desain bersih, siap berkembang'},
-    {no:'03',label:'UMKM & Finance',desc:'Bisnis kecil & kebiasaan hemat'}
-  ],
-  aboutLabelTop:'Tentang Kami', aboutTitle:'Siapa kami?',
-  about:[
-    {title:'Apa yang kami kerjakan',body:'Aplikasi web & mobile yang fokus pada kebutuhan nyata: transaksi, laporan, pencatatan, dan pengelolaan keuangan sederhana.',tags:['Web App','Mobile','Finance']},
-    {title:'Cara kami membantu',body:'Produk yang mudah dipakai, dokumentasi yang jelas, dan iterasi yang cepat untuk pengguna dari semua latar belakang.',tags:['UX First','Fast Iter.','Open Docs']}
-  ],
-  vmgLabel:'Visi · Misi · Tujuan', vmgTitle:'Arah kami',
-  vmg:[
-    {num:'01',tag:'Visi',cls:'vtag-a',title:'Vision',body:'Menjadi perusahaan teknologi berdampak positif yang membantu masyarakat melalui solusi digital.',list:null},
-    {num:'02',tag:'Misi',cls:'vtag-b',title:'Mission',body:null,list:['Membuat aplikasi bermanfaat, sederhana, dan mudah digunakan.','Mendukung UMKM dengan teknologi yang tepat guna.','Meningkatkan literasi teknologi dan produktivitas pengguna.']},
-    {num:'03',tag:'Tujuan',cls:'vtag-c',title:'Goals',body:'Membuat orang lebih efisien, lebih paham teknologi, dan lebih bijak mengatur keuangan.',list:null}
-  ],
-  prodLabel:'Yang kami bangun', prodTitle:'Produk & Aplikasi',
-  products:[
-    {type:'Point of Sale',name:'Mesin Kasir UMKM',img:'assets/app-kasir.png',desc:'Aplikasi kasir sederhana untuk UMKM: kelola transaksi, catatan penjualan, dan ringkasan laporan lebih rapi.',bullets:['Pencatatan transaksi cepat','Ringkasan penjualan harian','Operasional UMKM jadi mudah'],chips:['Cepat','Rapi','User-friendly']},
-    {type:'Personal Finance',name:'Uang Kita',img:'assets/app-uangkita.png',desc:'Aplikasi pencatatan keuangan untuk belajar hemat: catat pemasukan/pengeluaran dan lihat pola belanja.',bullets:['Catat pemasukan & pengeluaran','Analisis pola belanja','Bantu konsisten hemat'],chips:['Budgeting','Habit','Insight']}
-  ],
-  teamLabel:'Orang-orang di balik layar', teamTitle:'Tim',
-  team:[
-    {name:'Jesslyn',init:'JE',role:'Backend Developer',img:'img/iconuser1.png',desc:'Fokus di arsitektur, API, database, dan performa. Membuat sistem stabil, aman, dan scalable.',chips:['API','Database','Performance'],gh:'https://github.com/YOUR_GITHUB',li:'https://www.linkedin.com/in/YOUR_LINKEDIN/'},
-    {name:'Nama Frontend',init:'FE',role:'Frontend Developer',img:'assets/team/frontend.png',desc:'Membangun UI modern yang cepat dan responsive. Fokus pada pengalaman pengguna yang nyaman di semua perangkat.',chips:['UI','Responsive','DX'],gh:'https://github.com/YOUR_GITHUB',li:'https://www.linkedin.com/in/YOUR_LINKEDIN/'},
-    {name:'Nama UI/UX',init:'UX',role:'UI/UX Designer',img:'assets/team/uiux.png',desc:'Merancang alur dan tampilan produk yang sederhana, mudah dipahami pengguna. Fokus pada clarity & usability.',chips:['UX Flow','Design Sys.','Usability'],gh:'https://github.com/YOUR_GITHUB',li:'https://www.linkedin.com/in/YOUR_LINKEDIN/'}
-  ],
-  contactLabel:'Hubungi kami', contactTitle:'Kontak',
-  contactH:'Mari<br><em>ngobrol.</em>',
-  contactSub:'Ingin kolaborasi atau butuh bantuan teknologi untuk UMKM? Hubungi kami.',
-  contacts:[
-    {l:'Email',v:'respawnsociety@yourmail.com'},
-    {l:'GitHub',v:'github.com/your-username'},
-    {l:'Instagram',v:'instagram.com/your-handle'}
-  ],
-  footer:'© '+new Date().getFullYear()+' Respawn Society · Built with HTML · CSS · JS'
-},
-en:{
-  navTagline:'Building Technology to Help People Grow',
-  navLinks:['About','Vision & Mission','Products','Team','Contact'],
-  heroKicker:'Tech Startup · Jakarta',
-  heroTitle:'Technology<br><em>for</em><br><span class="accent">everyone.</span>',
-  heroDesc:'A small team building practical, clean digital products. Our focus: helping SMEs and individuals manage finances more intentionally.',
-  cta1:'View Products →', cta2:'Meet the Team',
-  strip:'Company Profile — Vol. 01 — 2025',
-  stats:[
-    {no:'01',label:'Tech for People',desc:'Useful products, not just features'},
-    {no:'02',label:'Simple & Scalable',desc:'Clean design, built to grow'},
-    {no:'03',label:'SMEs & Finance',desc:'Small business & smarter saving'}
-  ],
-  aboutLabelTop:'About Us', aboutTitle:'Who are we?',
-  about:[
-    {title:'What we build',body:'Web & mobile apps focused on real needs: transactions, reports, bookkeeping, and simple personal finance management.',tags:['Web App','Mobile','Finance']},
-    {title:'How we help',body:'Easy UX, clear documentation, and fast iteration for users from all backgrounds.',tags:['UX First','Fast Iter.','Open Docs']}
-  ],
-  vmgLabel:'Vision · Mission · Goals', vmgTitle:'Our direction',
-  vmg:[
-    {num:'01',tag:'Vision',cls:'vtag-a',title:'Vision',body:'To become a tech company with meaningful positive impact, helping communities through digital solutions.',list:null},
-    {num:'02',tag:'Mission',cls:'vtag-b',title:'Mission',body:null,list:['Build helpful, simple, easy-to-use applications.','Support SMEs with practical technology.','Improve tech literacy and user productivity.']},
-    {num:'03',tag:'Goals',cls:'vtag-c',title:'Goals',body:'Create products that make people more efficient, tech-confident, and wiser with money.',list:null}
-  ],
-  prodLabel:'What we build', prodTitle:'Products & Apps',
-  products:[
-    {type:'Point of Sale',name:'SME POS Cashier',img:'assets/app-kasir.png',desc:'A simple POS app to help SMEs manage transactions, sales records, and report summaries cleanly.',bullets:['Fast checkout flow','Daily sales summaries','Supports daily operations'],chips:['Fast','Clean','User-friendly']},
-    {type:'Personal Finance',name:'Uang Kita',img:'assets/app-uangkita.png',desc:'A personal finance tracker to build saving habits: log income/expenses and spot spending patterns.',bullets:['Daily income & expense log','Spending pattern analysis','Helps build saving habits'],chips:['Budgeting','Habit','Insights']}
-  ],
-  teamLabel:'The people behind the screen', teamTitle:'Team',
-  team:[
-    {name:'Jesslyn',init:'JE',role:'Backend Developer',img:'img/iconuser1.png',desc:'Focused on architecture, APIs, databases, and performance. Builds stable, secure, scalable systems.',chips:['API','Database','Performance'],gh:'https://github.com/YOUR_GITHUB',li:'https://www.linkedin.com/in/YOUR_LINKEDIN/'},
-    {name:'Frontend Name',init:'FE',role:'Frontend Developer',img:'assets/team/frontend.png',desc:'Builds modern, fast, responsive UI. Focused on user comfort across all devices.',chips:['UI','Responsive','DX'],gh:'https://github.com/YOUR_GITHUB',li:'https://www.linkedin.com/in/YOUR_LINKEDIN/'},
-    {name:'UI/UX Name',init:'UX',role:'UI/UX Designer',img:'assets/team/uiux.png',desc:'Designs clean, easy-to-understand flows. Focus on clarity and usability.',chips:['UX Flow','Design Sys.','Usability'],gh:'https://github.com/YOUR_GITHUB',li:'https://www.linkedin.com/in/YOUR_LINKEDIN/'}
-  ],
-  contactLabel:'Get in touch', contactTitle:'Contact',
-  contactH:"Let's<br><em>talk.</em>",
-  contactSub:'Want to collaborate or need tech help for your SME? Reach out.',
-  contacts:[
-    {l:'Email',v:'respawnsociety@yourmail.com'},
-    {l:'GitHub',v:'github.com/your-username'},
-    {l:'Instagram',v:'instagram.com/your-handle'}
-  ],
-  footer:'© '+new Date().getFullYear()+' Respawn Society · Built with HTML · CSS · JS'
-}};
-
-function render(lang){
-  const c=C[lang]||C.id;
-  document.documentElement.lang=lang;
-  document.getElementById('btn-id').className=lang==='id'?'active':'';
-  document.getElementById('btn-en').className=lang==='en'?'active':'';
-  document.getElementById('nav-tagline').textContent=c.navTagline;
-  ['nav-about','nav-vmg','nav-products','nav-team','nav-contact'].forEach((id,i)=>document.getElementById(id).textContent=c.navLinks[i]);
-  document.getElementById('hero-kicker').textContent=c.heroKicker;
-  document.getElementById('hero-title').innerHTML=c.heroTitle;
-  document.getElementById('hero-desc').textContent=c.heroDesc;
-  document.getElementById('cta1').textContent=c.cta1;
-  document.getElementById('cta2').textContent=c.cta2;
-  document.getElementById('strip-text').textContent=c.strip;
-
-  document.getElementById('stats-container').innerHTML=c.stats.map(s=>`
+        document.getElementById("stats-container").innerHTML = c.stats
+          .map(
+            (s) => `
     <div class="stat-item">
       <span class="stat-no">${s.no}</span>
       <div>
         <div class="stat-label">${s.label}</div>
         <div class="stat-desc">${s.desc}</div>
       </div>
-    </div>`).join('');
+    </div>`,
+          )
+          .join("");
 
-  document.getElementById('about-label-top').textContent=c.aboutLabelTop;
-  document.getElementById('about-title').textContent=c.aboutTitle;
-  document.getElementById('about-col1').innerHTML=`<h4>${c.about[0].title}</h4><p>${c.about[0].body}</p><div class="tag-list">${c.about[0].tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
-  document.getElementById('about-col2').innerHTML=`<h4>${c.about[1].title}</h4><p>${c.about[1].body}</p><div class="tag-list">${c.about[1].tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
+        document.getElementById("about-label-top").textContent =
+          c.aboutLabelTop;
+        document.getElementById("about-title").textContent = c.aboutTitle;
+        document.getElementById("about-col1").innerHTML =
+          `<h4>${c.about[0].title}</h4><p>${c.about[0].body}</p><div class="tag-list">${c.about[0].tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>`;
+        document.getElementById("about-col2").innerHTML =
+          `<h4>${c.about[1].title}</h4><p>${c.about[1].body}</p><div class="tag-list">${c.about[1].tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>`;
 
-  document.getElementById('vmg-label').textContent=c.vmgLabel;
-  document.getElementById('vmg-title').textContent=c.vmgTitle;
-  document.getElementById('vmg-cards').innerHTML=c.vmg.map(v=>`
+        document.getElementById("vmg-label").textContent = c.vmgLabel;
+        document.getElementById("vmg-title").textContent = c.vmgTitle;
+        document.getElementById("vmg-cards").innerHTML = c.vmg
+          .map(
+            (v) => `
     <div class="vmg-card fade-up">
       <div class="vmg-num">${v.num}</div>
       <span class="vmg-tag ${v.cls}">${v.tag}</span>
       <h4>${v.title}</h4>
-      ${v.body?`<p>${v.body}</p>`:`<ul>${v.list.map(l=>`<li>${l}</li>`).join('')}</ul>`}
-    </div>`).join('');
+      ${v.body ? `<p>${v.body}</p>` : `<ul>${v.list.map((l) => `<li>${l}</li>`).join("")}</ul>`}
+    </div>`,
+          )
+          .join("");
 
-  document.getElementById('prod-label').textContent=c.prodLabel;
-  document.getElementById('prod-title').textContent=c.prodTitle;
-  document.getElementById('prod-cards').innerHTML=c.products.map(p=>`
+        document.getElementById("prod-label").textContent = c.prodLabel;
+        document.getElementById("prod-title").textContent = c.prodTitle;
+        document.getElementById("prod-cards").innerHTML = c.products
+          .map(
+            (p) => `
     <div class="prod-card fade-up">
       <div class="prod-img-wrap">
         <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">
@@ -704,14 +1591,18 @@ function render(lang){
         <div class="prod-type">${p.type}</div>
         <h4>${p.name}</h4>
         <p class="prod-desc">${p.desc}</p>
-        <ul class="prod-list">${p.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>
-        <div class="prod-chips">${p.chips.map(ch=>`<span class="prod-chip">${ch}</span>`).join('')}</div>
+        <ul class="prod-list">${p.bullets.map((b) => `<li>${b}</li>`).join("")}</ul>
+        <div class="prod-chips">${p.chips.map((ch) => `<span class="prod-chip">${ch}</span>`).join("")}</div>
       </div>
-    </div>`).join('');
+    </div>`,
+          )
+          .join("");
 
-  document.getElementById('team-label').textContent=c.teamLabel;
-  document.getElementById('team-title').textContent=c.teamTitle;
-  document.getElementById('team-cards').innerHTML=c.team.map(m=>`
+        document.getElementById("team-label").textContent = c.teamLabel;
+        document.getElementById("team-title").textContent = c.teamTitle;
+        document.getElementById("team-cards").innerHTML = c.team
+          .map(
+            (m) => `
     <div class="team-card fade-up">
       <div class="ava">
         <div class="ava-init">${m.init}</div>
@@ -720,39 +1611,53 @@ function render(lang){
       <h4>${m.name}</h4>
       <span class="role-label">${m.role}</span>
       <p class="team-desc">${m.desc}</p>
-      <div class="team-chips">${m.chips.map(ch=>`<span class="team-chip">${ch}</span>`).join('')}</div>
+      <div class="team-chips">${m.chips.map((ch) => `<span class="team-chip">${ch}</span>`).join("")}</div>
       <div class="link-row">
         <a class="lnk" href="${m.gh}" target="_blank" rel="noopener">${GH} GitHub</a>
         <a class="lnk" href="${m.li}" target="_blank" rel="noopener">${LI} LinkedIn</a>
       </div>
-    </div>`).join('');
+    </div>`,
+          )
+          .join("");
 
-  document.getElementById('contact-label').textContent=c.contactLabel;
-  document.getElementById('contact-title').textContent=c.contactTitle;
-  document.getElementById('contact-h').innerHTML=c.contactH;
-  document.getElementById('contact-sub').textContent=c.contactSub;
-  document.getElementById('contact-items').innerHTML=c.contacts.map(x=>`
+        document.getElementById("contact-label").textContent = c.contactLabel;
+        document.getElementById("contact-title").textContent = c.contactTitle;
+        document.getElementById("contact-h").innerHTML = c.contactH;
+        document.getElementById("contact-sub").textContent = c.contactSub;
+        document.getElementById("contact-items").innerHTML = c.contacts
+          .map(
+            (x) => `
     <div class="contact-item">
       <div class="ci-label">${x.l}</div>
       <div class="ci-val">${x.v}</div>
-    </div>`).join('');
-  document.getElementById('footer-copy').textContent=c.footer;
+    </div>`,
+          )
+          .join("");
+        document.getElementById("footer-copy").textContent = c.footer;
 
-  // re-observe new cards
-  document.querySelectorAll('.fade-up').forEach(el=>{
-    observer.observe(el);
-  });
-}
+        // re-observe new cards
+        document.querySelectorAll(".fade-up").forEach((el) => {
+          observer.observe(el);
+        });
+      }
 
-function setLang(l){render(l)}
+      function setLang(l) {
+        render(l);
+      }
 
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}
-  });
-},{threshold:.08});
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
 
-render('id');
-</script>
-</body>
+      render("id");
+    </script>
+  </body>
 </html>
